@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Catalogo - GameDepot Admin</title>
+ <link rel="stylesheet" th:href="@{/styles/admin.css}">
+</head>
+<body><div class="page">
+ <div th:replace="~{fragments :: header(activeMenu='productos')}"></div>
+ <div class="main-layout">
+  <div th:replace="~{fragments :: sidebar(activeMenu='productos')}"></div>
+  <main class="content">
+   <div class="sec-head">
+    <h2>Catalogo de Juegos</h2>
+    <a th:href="@{/productos/nuevo}" class="btn-primary">Nuevo Producto</a>
+   </div>
+   <div class="panel">
+    <table class="table">
+     <thead>
+      <tr>
+       <th class="hide-t">SKU</th>
+       <th>Titulo</th>
+       <th class="hide-m">Plataforma</th>
+       <th>Precio</th>
+       <th class="hide-m">Stock</th>
+       <th>Acciones</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td class="mono hide-t">CS-8820-STM</td>
+       <td>CyberStrike: 2088 Neon Protocol</td>
+       <td class="hide-m"><span class="pill">Steam PC</span></td>
+       <td>$34.50</td>
+       <td class="hide-m">18</td>
+       <td><a href="#" class="link-s">Editar</a></td>
+      </tr>
+      <tr>
+       <td class="mono hide-t">ELD-0091-PS5</td>
+       <td>Elden Shadows: Abyssal Exp</td>
+       <td class="hide-m"><span class="pill">PS5</span></td>
+       <td>$69.99</td>
+       <td class="hide-m">50+</td>
+       <td><a href="#" class="link-s">Editar</a></td>
+      </tr>
+      <tr>
+       <td class="mono hide-t">APX-7712-XBX</td>
+       <td>Apex Phantom Elite: Zero</td>
+       <td class="hide-m"><span class="pill">Xbox</span></td>
+       <td>$45.00</td>
+       <td class="hide-m">2</td>
+       <td><a href="#" class="link-s">Editar</a></td>
+      </tr>
+     </tbody>
+    </table>
+   </div>
+  </main>
+ </div>
+</div></body>
+</html>

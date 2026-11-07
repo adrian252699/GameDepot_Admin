@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Usuarios - GameDepot Admin</title>
+ <link rel="stylesheet" href="admin.css">
+</head>
+<body><div class="page">
+ <div th:replace="~{fragments :: header(activeMenu='usuarios')}"></div>
+ <div class="main-layout">
+  <div th:replace="~{fragments :: sidebar(activeMenu='usuarios')}"></div>
+  <main class="content">
+   <div class="sec-head">
+    <h2>Directorio de Usuarios</h2>
+   </div>
+   <div class="panel">
+    <table class="table">
+     <thead>
+      <tr>
+       <th>Usuario</th>
+       <th class="hide-m">Correo</th>
+       <th>Nivel</th>
+       <th class="hide-t">Ultimo Acceso</th>
+       <th>Control</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>Admin Root</td>
+       <td class="hide-m">admin@gamedepot.com</td>
+       <td><span class="pill" style="color:var(--primary)">SuperAdmin</span></td>
+       <td class="hide-t">Hace 2 mins</td>
+       <td><a href="#" class="link-s">Gestionar</a></td>
+      </tr>
+      <tr>
+       <td>Juan Perez</td>
+       <td class="hide-m">juan.perez@mail.com</td>
+       <td><span class="pill">Cliente VIP</span></td>
+       <td class="hide-t">Hace 1 hora</td>
+       <td><a href="#" class="link-s">Gestionar</a></td>
+      </tr>
+      <tr>
+       <td>Marta Gomez</td>
+       <td class="hide-m">marta.g@mail.com</td>
+       <td><span class="pill">Cliente</span></td>
+       <td class="hide-t">Ayer</td>
+       <td><a href="#" class="link-s">Gestionar</a></td>
+      </tr>
+     </tbody>
+    </table>
+   </div>
+  </main>
+ </div>
+</div></body>
+</html>

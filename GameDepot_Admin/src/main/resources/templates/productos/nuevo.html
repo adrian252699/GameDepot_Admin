@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Agregar Producto - GameDepot Admin</title>
+ <link rel="stylesheet" th:href="@{/style/admin.css}">
+</head>
+<body><div class="page">
+
+ <div th:replace="~{fragments :: header('productos')}"></div>
+ <div class="main-layout">
+
+  <div th:replace="~{fragments :: sidebar('productos')}"></div>
+  <main class="content">
+   <div class="sec-head">
+    <h2>Agregar Nuevo Producto</h2>
+    <a th:href="@{/productos}" class="btn-ghost">Volver al Catalogo</a>
+   </div>
+   <div class="panel">
+    <form th:action="@{/producto-nuevo}" th:object="${producto}" method="post" class="fgrid">
+     <div class="field">
+      <label>Titulo del Juego</label>
+      <input type="text" th:field="*{titulo}" class="input" placeholder="Ej. CyberStrike 2088" required>
+     </div>
+     <div class="field">
+      <label>Codigo SKU</label>
+      <input type="text" th:field="*{sku}" class="input" placeholder="Ej. CS-8820-STM" required>
+     </div>
+     <div class="field">
+      <label>Plataforma / DRM</label>
+      <select th:field="*{plataforma}" class="input">
+       <option value="steam">Steam PC</option>
+       <option value="ps5">PlayStation 5</option>
+       <option value="xbox">Xbox Series X|S</option>
+       <option value="epic">Epic Games</option>
+       <option value="gog">GOG DRM-Free</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>Region de la Clave</label>
+      <select th:field="*{region}" class="input">
+       <option value="global">Global Key (Sin bloqueo)</option>
+       <option value="latam">LATAM</option>
+       <option value="na">Norteamerica</option>
+       <option value="eu">Europa</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>Precio Normal (USD)</label>
+      <input type="number" th:field="*{precioNormal}" step="0.01" class="input" placeholder="59.99" required>
+     </div>
+     <div class="field">
+      <label>Precio con Descuento (USD)</label>
+      <input type="number" th:field="*{precioDescuento}" step="0.01" class="input" placeholder="34.50">
+     </div>
+     <div class="field">
+      <label>Stock / Unidades Disponibles</label>
+      <input type="number" th:field="*{stock}" class="input" placeholder="50" required>
+     </div>
+     <div class="field">
+      <label>Categoria Principal</label>
+      <select th:field="*{categoria}" class="input">
+       <option value="accion">Accion y Cyberpunk</option>
+       <option value="rpg">RPG / Aventuras</option>
+       <option value="estrategia">Estrategia</option>
+       <option value="deportes">Deportes</option>
+      </select>
+     </div>
+     <div class="field" style="grid-column: 1 / -1">
+      <label>Descripcion del Producto</label>
+      <textarea th:field="*{descripcion}" class="input" placeholder="Escribe los detalles, requisitos del sistema e incentivos de reserva..."></textarea>
+     </div>
+     <div class="form-actions" style="grid-column: 1 / -1">
+      <a th:href="@{/productos}" class="btn-ghost">Cancelar</a>
+      <button type="submit" class="btn-primary">Guardar Producto</button>
+     </div>
+    </form>
+   </div>
+  </main>
+ </div>
+</div></body>
+</html>

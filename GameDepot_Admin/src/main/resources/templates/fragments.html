@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+ <!-- Cabecera Responsiva -->
+ <div th:fragment="header(activeMenu)" class="header-wrapper">
+  <div class="topnav">
+   <div class="brand"><div class="brand-ic">GD</div>GameDepot Admin</div>
+   <div class="navsearch"><input type="text" placeholder="Buscar pedidos, usuarios..."></div>
+   <a class="acct" href="#">Admin</a>
+  </div>
+  
+  <!-- Nav exclusiva para Mobile (375px) -->
+  <div class="mob-nav show-m">
+   <a th:class="${activeMenu == 'dashboard' ? 'mob-link active' : 'mob-link'}" th:href="@{/dashboard}">Panel</a>
+   <a th:class="${activeMenu == 'productos' ? 'mob-link active' : 'mob-link'}" th:href="@{/catalogo}">Catalogo</a>
+   <a th:class="${activeMenu == 'pedidos' ? 'mob-link active' : 'mob-link'}" th:href="@{/pedidos}">Pedidos</a>
+   <a th:class="${activeMenu == 'usuarios' ? 'mob-link active' : 'mob-link'}" th:href="@{/usuarios}">Usuarios</a>
+  </div>
+ </div>
+
+ <!-- Menu lateral exclusivo para Tablet/Desktop (768px+) -->
+ <div th:fragment="sidebar(activeMenu)" class="side">
+  <div class="eyebrow" style="margin-bottom:8px">Gestion Principal</div>
+  <a th:class="${activeMenu == 'dashboard' ? 'sidelink active' : 'sidelink'}" th:href="@{/dashboard}">Panel de Control</a>
+  <a th:class="${activeMenu == 'productos' ? 'sidelink active' : 'sidelink'}" th:href="@{/catalogo}">Catalogo</a>
+  <a th:class="${activeMenu == 'pedidos' ? 'sidelink active' : 'sidelink'}" th:href="@{/pedidos}">Pedidos</a>
+  <a th:class="${activeMenu == 'usuarios' ? 'sidelink active' : 'sidelink'}" th:href="@{/usuarios}">Usuarios</a>
+ </div>
+</body>
+</html>
