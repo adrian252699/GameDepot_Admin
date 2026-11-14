@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto - GameDepot Admin</title>
+    <link rel="stylesheet" th:href="@{/styles/admin.css}">
+</head>
+
+<body>
+    <div class="page">
+        <div th:replace="~{fragments :: header('productos')}"></div>
+        <div class="main-layout">
+            <div th:replace="~{fragments :: sidebar('productos')}"></div>
+
+            <main class="content">
+                <div class="sec-head">
+                    <h2>Editar Producto</h2>
+                    <a th:href="@{/catalogo}" class="btn-ghost">Volver al Catalogo</a>
+                </div>
+                <div class="panel">
+                    <div class="field">
+                        <label for="titulo">Nombre del Juego</label>
+                        <input type="text" class="input" id="titulo" name="titulo" th:value="${producto.nombre}"
+                            required>
+                    </div>
+
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -48,6 +48,94 @@ h1, h2, h3 { color: var(--text); font-weight: 800; }
 .stat b { font-size: 20px; color: var(--text); }
 .sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 8px; }
 
+/* Formularios */
+.fgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.fgrid .field {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fgrid .field label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.fgrid .input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--muted) 55%, var(--surface));
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  color-scheme: dark;
+  font: inherit;
+}
+
+.fgrid .input::placeholder {
+  color: var(--muted);
+  opacity: .8;
+}
+
+.fgrid .input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.fgrid textarea.input {
+  min-height: 128px;
+  resize: vertical;
+}
+
+.fgrid .form-actions {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--chip);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.btn-ghost:hover {
+  background: var(--chip);
+}
+
+.fgrid .form-actions .btn-primary {
+  justify-content: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.fgrid .form-actions .btn-primary:hover {
+  background: var(--text);
+}
+
+.btn-ghost:focus-visible,
+.fgrid .form-actions .btn-primary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* Tablas Responsivas */
 .table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 320px; }
 .table th { text-align: left; font-size: 10px; text-transform: uppercase; padding: 10px 8px; color: var(--muted); border-bottom: 1px solid var(--chip); }
@@ -74,6 +162,8 @@ h1, h2, h3 { color: var(--text); font-weight: 800; }
   
   .content { padding: 24px; }
   .sec-head { flex-direction: row; align-items: center; justify-content: space-between; }
+  .fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fgrid .form-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; }
   .stats { grid-template-columns: repeat(4, 1fr); }
   .stat b { font-size: 24px; }
   
