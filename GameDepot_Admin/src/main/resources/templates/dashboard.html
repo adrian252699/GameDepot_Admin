@@ -42,6 +42,7 @@
                                 <th class="hide-t">Fecha</th> <!-- Oculto en movil y tablet -->
                                 <th>Monto</th>
                                 <th>Estado</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +53,7 @@
                                 <td class="hide-t">Hoy, 14:30</td>
                                 <td>$59.99</td>
                                 <td><span class="status">Entregado</span></td>
+                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
                             </tr>
                             <tr>
                                 <td class="mono hide-m">REF-9020</td>
@@ -59,6 +61,7 @@
                                 <td class="hide-t">Hoy, 13:15</td>
                                 <td>$14.50</td>
                                 <td><span class="status">Entregado</span></td>
+                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
                             </tr>
                             <tr>
                                 <td class="mono hide-m">REF-9019</td>
@@ -66,6 +69,7 @@
                                 <td class="hide-t">Hoy, 11:05</td>
                                 <td>$89.90</td>
                                 <td><span class="status warn">Pendiente</span></td>
+                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
                             </tr>
                         </tbody>
                     </table>

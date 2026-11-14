@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar usuario - GameDepot Admin</title>
+    <link rel="stylesheet" th:href="@{/styles/admin.css}">
+</head>
+
+<body>
+    <div class="page">
+        <div th:replace="~{fragments :: header(activeMenu='usuarios')}"></div>
+        <div class="main-layout">
+            <div th:replace="~{fragments :: sidebar(activeMenu='usuarios')}"></div>
+            <main class="content">
+                <div class="sec-head">
+                    <h2>Gestionar usuario</h2>
+                    <a class="btn-ghost" th:href="@{/usuarios}">Volver a usuarios</a>
+                </div>
+
+                <section class="panel" aria-labelledby="datos-usuario">
+                    <div class="sec-head">
+                        <h3 id="datos-usuario">Datos del usuario</h3>
+                        <span class="status" th:classappend="${usuario.activo ? '' : 'warn'}" th:text="${usuario.activo ? 'Cuenta activa' : 'Cuenta desactivada'}">Cuenta activa</span>
+                    </div>
+                    <dl class="fgrid">
+                        <div class="field">
+                            <dt class="eyebrow">ID</dt>
+                            <dd class="input" th:text="${usuario.id}">1</dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Nombre</dt>
+                            <dd class="input" th:text="${usuario.nombre}">Nombre del usuario</dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Correo electrónico</dt>
+                            <dd class="input" style="overflow-wrap: anywhere"
+                                th:text="${usuario.email}">Correo del usuario</dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Fecha de registro</dt>
+                            <dd class="input" th:text="${usuario.fechaRegistro}">Fecha de registro</dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Rol actual</dt>
+                            <dd class="input" th:text="${usuario.rol}">Rol actual</dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">País</dt>
+                            <dd class="input" th:text="${usuario.pais}">País</dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <section class="panel" aria-labelledby="cambiar-rol">
+                    <div class="sec-head">
+                        <h3 id="cambiar-rol">Cambiar Rol</h3>
+                    </div>
+                    <form class="fgrid" method="post" th:action="@{/usuarios/{id}/rol(id=${usuario.id})}">
+                        <div class="field">
+                            <label for="rol">Rol</label>
+                            <select class="input" id="rol" name="rol" required>
+                                <option value="admin">Admin</option>
+                                <option value="cliente">Cliente</option>
+                            </select>
+                        </div>
+                        <div class="form-actions" style="grid-column: 1 / -1;">
+                            <button class="btn-primary" type="submit">Guardar rol</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="panel" aria-labelledby="estado-cuenta">
+                    <div class="sec-head">
+                        <h3 id="estado-cuenta">Activar/Desactivar Cuenta</h3>
+                    </div>
+                    <form class="fgrid" method="post" th:action="@{/usuarios/{id}/estado(id=${usuario.id})}">
+                        <input type="hidden" name="activo" th:value="${!usuario.activo}">
+                        <div class="form-actions" style="grid-column: 1 / -1">
+                            <button class="btn-primary" type="submit" th:text="${usuario.activo ? 'Desactivar cuenta' : 'Activar cuenta'}">
+                                Desactivar cuenta
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

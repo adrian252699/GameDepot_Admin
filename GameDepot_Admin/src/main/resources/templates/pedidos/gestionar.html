@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar pedido - GameDepot Admin</title>
+    <link rel="stylesheet" th:href="@{/styles/admin.css}">
+</head>
+
+<body>
+    <div class="page">
+        <div th:replace="~{fragments :: header(activeMenu='pedidos')}"></div>
+        <div class="main-layout">
+            <div th:replace="~{fragments :: sidebar(activeMenu='pedidos')}"></div>
+            <main class="content">
+                <div class="sec-head">
+                    <h2>Gestionar pedido</h2>
+                    <a class="btn-ghost" th:href="@{/pedidos}">Volver a pedidos</a>
+                </div>
+
+                <section class="panel" aria-labelledby="datos-pedido">
+                    <div class="sec-head">
+                        <h3 id="datos-pedido">Datos del pedido</h3>
+                    </div>
+                    <dl class="fgrid">
+                        <div class="field">
+                            <dt class="eyebrow">ID del pedido</dt>
+                            <dd class="input" th:text="${pedido.id}"></dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Folio</dt>
+                            <dd class="input" style="overflow-wrap: anywhere" th:text="${pedido.folio}"></dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Fecha</dt>
+                            <dd class="input" th:text="${pedido.fecha}"></dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Total</dt>
+                            <dd class="input" th:text="${pedido.total}"></dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Estado del pedido</dt>
+                            <dd class="input" th:text="${pedido.estado}"></dd>
+                        </div>
+                        <div class="field">
+                            <dt class="eyebrow">Estado del pago</dt>
+                            <dd class="input" th:text="${pedido.estadoPago}"></dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <section class="panel" aria-labelledby="cambiar-estado">
+                    <div class="sec-head">
+                        <h3 id="cambiar-estado">Cambiar estado del pedido</h3>
+                    </div>
+                    <form class="fgrid" method="post" th:action="@{/pedidos/{id}/estado(id=${pedido.id})}">
+                        <div class="field">
+                            <label for="estado">Estado</label>
+                            <select th:field="${pedido.estado}" class="input" id="estado" name="estado" required>
+                                <option value="" selected disabled>Selecciona un estado</option>
+                                <option value="entregado">Entregado</option>
+                                <option value="enviado">Enviado</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="procesando">Procesando</option>
+                            </select>
+                        </div>
+                        <div class="form-actions" style="grid-column: 1 / -1">
+                            <button class="btn-primary" type="submit">Guardar estado</button>
+                        </div>
+                    </form>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -17,16 +17,67 @@
             <main class="content">
                 <div class="sec-head">
                     <h2>Editar Producto</h2>
-                    <a th:href="@{/catalogo}" class="btn-ghost">Volver al Catalogo</a>
+                    <a th:href="@{/catalogo}" class="btn-ghost">Volver al catálogo</a>
                 </div>
                 <div class="panel">
-                    <div class="field">
-                        <label for="titulo">Nombre del Juego</label>
-                        <input type="text" class="input" id="titulo" name="titulo" th:value="${producto.nombre}"
-                            required>
-                    </div>
-
-
+                    <form th:action="@{/productos/editar/{id}(id=${producto.id})}" th:object="${producto}" method="post" class="fgrid" enctype="multipart/form-data">
+                        <div class="field">
+                            <label>Id del juego</label>
+                            <input type="text" th:field="*{id}" class="input" required>
+                        </div>
+                        <div class="field">
+                            <label>Nombre del juego</label>
+                            <input type="text" th:field="*{nombre}" class="input" placeholder="Ej. CyberStrike 2088" required>
+                        </div>
+                        <div class="field">
+                            <label >Código de la clave</label>
+                            <input type="text" th:field="*{key}" class="input" placeholder="Ej. CS-8820-STM" required>
+                        </div>
+                        <div class="field">
+                            <label>Plataforma / DRM</label>
+                            <select th:field="*{plataforma}" class="input">
+                                <option value="steam">Steam PC</option>
+                                <option value="ps5">PlayStation 5</option>
+                                <option value="xbox">Xbox Series X|S</option>
+                                <option value="epic">Epic Games</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Región de la clave</label>
+                            <select th:field="*{region}" class="input">
+                                <option value="global">Global Key (Sin bloqueo)</option>
+                                <option value="latam">LATAM</option>
+                                <option value="na">Norteamérica</option>
+                                <option value="eu">Europa</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Precio (MXN)</label>
+                            <input type="number" th:field="*{precio}" step="0.01" class="input" placeholder="59.99" required>
+                        </div>
+                        <div class="field">
+                            <label>Stock / unidades disponibles</label>
+                            <input type="number" th:field="*{stock}" class="input" placeholder="50" required>
+                        </div>
+                        <div class="field">
+                            <label >Categoría principal</label>
+                            <select th:field="*{categoria}" class="input">
+                                <option value="accion">Acción</option>
+                                <option value="rpg">RPG / Aventuras</option>
+                                <option value="estrategia">Estrategia</option>
+                                <option value="deportes">Deportes</option>
+                            </select>
+                        </div>
+                        <div class="field" style="grid-column: 1 / -1">
+                            <label>Descripción del producto</label>
+                            <textarea th:field="*{descripcion}" class="input"
+                                placeholder="Escribe los detalles, requisitos del sistema e incentivos de reserva..."></textarea>
+                        </div>
+                        <div class="form-actions" style="grid-column: 1 / -1">
+                            <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
+                            <button type="submit" class="btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
                 </div>
             </main>
 

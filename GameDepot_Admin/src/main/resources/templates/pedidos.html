@@ -26,6 +26,8 @@
                                 <th class="hide-t">Metodo Pago</th>
                                 <th>Total</th>
                                 <th>Estatus</th>
+                                <th>Acciones</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -35,6 +37,7 @@
                                 <td class="hide-t">PayPal</td>
                                 <td>$34.50</td>
                                 <td><span class="status">Aprobado</span></td>
+                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
                             </tr>
                             <tr>
                                 <td class="mono hide-m">TXN-55413</td>
@@ -42,6 +45,7 @@
                                 <td class="hide-t">Visa *4421</td>
                                 <td>$114.99</td>
                                 <td><span class="status">Aprobado</span></td>
+                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
                             </tr>
                             <tr>
                                 <td class="mono hide-m">TXN-55414</td>
@@ -49,6 +53,7 @@
                                 <td class="hide-t">Web3 Crypto</td>
                                 <td>$45.00</td>
                                 <td><span class="status warn">Validando</span></td>
+                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
                             </tr>
                         </tbody>
                     </table>
