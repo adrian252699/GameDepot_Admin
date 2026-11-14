@@ -1,7 +1,8 @@
-package com.example.GameDepotAPI.model.orden;
+package com.example.GameDepot_Admin.model.orden;
 
-import com.example.GameDepotAPI.dto.enums.EstadoOrden;
-import com.example.GameDepotAPI.model.usuario.Usuario;
+
+import com.example.GameDepot_Admin.dtos.enums.EstadoOrden;
+import com.example.GameDepot_Admin.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.example.GameDepotAPI.model.carrito;
+package com.example.GameDepot_Admin.model.carrito;
 
-import com.example.GameDepotAPI.model.usuario.Usuario;
+import com.example.GameDepot_Admin.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

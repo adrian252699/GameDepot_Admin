@@ -1,6 +1,6 @@
-package com.example.GameDepotAPI.model.carrito;
+package com.example.GameDepot_Admin.model.carrito;
 
-import com.example.GameDepotAPI.model.videojuego.Videojuego;
+import com.example.GameDepot_Admin.model.videojuego.Videojuego;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

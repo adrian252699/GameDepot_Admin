@@ -1,4 +1,4 @@
-package com.example.GameDepotAPI.model.videojuego;
+package com.example.GameDepot_Admin.model.videojuego;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
