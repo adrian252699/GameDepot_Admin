@@ -1,4 +1,4 @@
-package com.example.GameDepot_Admin.dtos.enums;
+package com.example.GameDepot_Admin.dto.enums;
 
 public enum RolUsuario {
     CLIENTE,

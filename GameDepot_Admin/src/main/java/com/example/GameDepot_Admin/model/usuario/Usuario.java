@@ -1,6 +1,6 @@
 package com.example.GameDepot_Admin.model.usuario;
 
-import com.example.GameDepot_Admin.dtos.enums.RolUsuario;
+import com.example.GameDepot_Admin.dto.enums.RolUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

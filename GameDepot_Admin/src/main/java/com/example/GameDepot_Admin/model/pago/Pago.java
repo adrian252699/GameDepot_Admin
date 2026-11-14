@@ -1,7 +1,7 @@
 package com.example.GameDepot_Admin.model.pago;
 
-import com.example.GameDepot_Admin.dtos.enums.EstadoPago;
-import com.example.GameDepot_Admin.dtos.enums.MetodoDePago;
+import com.example.GameDepot_Admin.dto.enums.EstadoPago;
+import com.example.GameDepot_Admin.dto.enums.MetodoDePago;
 import com.example.GameDepot_Admin.model.orden.Orden;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

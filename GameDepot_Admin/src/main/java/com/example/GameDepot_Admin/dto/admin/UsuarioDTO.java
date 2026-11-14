@@ -1,4 +1,4 @@
-package com.example.GameDepot_Admin.dtos;
+package com.example.GameDepot_Admin.dto.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

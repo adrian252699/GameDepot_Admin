@@ -1,9 +1,9 @@
 package com.example.GameDepot_Admin.controllers.navegacion;
 
-import com.example.GameDepot_Admin.dtos.EstadisticasDTO;
-import com.example.GameDepot_Admin.dtos.PedidoDTO;
-import com.example.GameDepot_Admin.dtos.ProductoDTO;
-import com.example.GameDepot_Admin.dtos.UsuarioDTO;
+import com.example.GameDepot_Admin.dto.admin.EstadisticasDTO;
+import com.example.GameDepot_Admin.dto.admin.PedidoDTO;
+import com.example.GameDepot_Admin.dto.admin.ProductoDTO;
+import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
