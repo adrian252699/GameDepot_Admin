@@ -45,9 +45,10 @@ public class AuthService {
                         usuario.getId(),
                         usuario.getNombre(),
                         usuario.getEmail(),
-                        usuario.getRol().toString(),
                         usuario.getFechaRegistro(),
-                        usuario.getPais()
+                        usuario.getRol().toString(),
+                        usuario.getPais(),
+                        usuario.getActivo()
                 );
 
         return new SesionResponseDTO(

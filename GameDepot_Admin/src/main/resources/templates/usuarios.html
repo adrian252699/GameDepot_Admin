@@ -24,31 +24,32 @@
                                 <th>Usuario</th>
                                 <th class="hide-m">Correo</th>
                                 <th>ROL</th>
-                                <th class="hide-t">Ultimo Acceso</th>
+                                <th>Activo</th>
                                 <th>Gestion</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Admin Root</td>
-                                <td class="hide-m">admin@gamedepot.com</td>
-                                <td><span class="pill" style="color:var(--primary)">SuperAdmin</span></td>
-                                <td class="hide-t">Hace 2 mins</td>
-                                <td><a th:href="@{/usuarios/gestionar}" class="link-s">Gestionar</a></td>
+                            <tr th:each="usuario : ${usuarios}">
+                                <td th:text="${usuario.nombre}">nombre</td>
+                                <td class="hide-m" th:text="${usuario.email}">correo@correo.com</td>
+                                <td th:text="${usuario.rol}">ADMIN</td>
+
+                                <td>
+                                    <span class="status" th:classappend="${usuario.activo != null ? 'warn' : ''}"
+                                        th:text="${usuario.activo}">
+                                        Activo
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a class="link-s" th:href="@{/catalogo/editar}">
+                                        Gestionar
+                                    </a>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>Juan Perez</td>
-                                <td class="hide-m">juan.perez@mail.com</td>
-                                <td><span class="pill">Cliente VIP</span></td>
-                                <td class="hide-t">Hace 1 hora</td>
-                                <td><a th:href="@{/usuarios/gestionar}" class="link-s">Gestionar</a></td>
-                            </tr>
-                            <tr>
-                                <td>Marta Gomez</td>
-                                <td class="hide-m">marta.g@mail.com</td>
-                                <td><span class="pill">Cliente</span></td>
-                                <td class="hide-t">Ayer</td>
-                                <td><a th:href="@{/usuarios/gestionar}" class="link-s">Gestionar</a></td>
+
+                            <tr th:if="${#lists.isEmpty(usuarios)}">
+                                <td colspan="5">No hay usuarios para mostrar.</td>
                             </tr>
                         </tbody>
                     </table>

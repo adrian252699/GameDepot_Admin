@@ -1,8 +1,6 @@
 package com.example.GameDepot_Admin.service;
 
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
-import com.example.GameDepot_Admin.dto.enums.RolUsuario;
-import com.example.GameDepot_Admin.exception.NegocioException;
 import com.example.GameDepot_Admin.exception.RecursoNoEncontradoException;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 import com.example.GameDepot_Admin.repository.UsuarioRepository;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,6 +16,11 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    public List<MostrarUsuarioDTO> mostrarUsuarios() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return UsuarioMapper.toMostrarUsuarioDTOList(usuarios);
+    }
 
     public MostrarUsuarioDTO obtenerPorId(Long id) {
         return UsuarioMapper.toMostrarUsuarioDTO(usuarioRepository.findById(id).orElseThrow(

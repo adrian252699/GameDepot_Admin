@@ -15,7 +15,8 @@ public class MostrarUsuarioDTO {
     private Long id;
     private String nombre;
     private String email;
-    private String rol;
     private LocalDateTime fechaRegistro;
+    private String rol;
     private String pais;
+    private Boolean activo;
 }

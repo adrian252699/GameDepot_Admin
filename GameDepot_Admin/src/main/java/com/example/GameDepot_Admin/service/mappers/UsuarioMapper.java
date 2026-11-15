@@ -1,10 +1,8 @@
 package com.example.GameDepot_Admin.service.mappers;
 
-import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.RolUsuario;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
-import com.example.GameDepot_Admin.model.orden.Orden;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -21,9 +19,10 @@ public class UsuarioMapper {
                 usuario.getId(),
                 usuario.getNombre(),
                 usuario.getEmail(),
-                usuario.getRol().toString(),
                 usuario.getFechaRegistro(),
-                usuario.getPais()
+                usuario.getRol().toString(),
+                usuario.getPais(),
+                usuario.getActivo()
         );
     }
 
@@ -58,13 +57,14 @@ public class UsuarioMapper {
         );
     }
 
-    public static List<UsuarioDTO> toUsuarioDTOList(List<Usuario> usuarios) {
-        List<UsuarioDTO> usuarioDTOS = new ArrayList<>();
+    public static List<MostrarUsuarioDTO> toMostrarUsuarioDTOList(List<Usuario> usuarios) {
+        List<MostrarUsuarioDTO> usuarioDTOS = new ArrayList<>();
 
         for (Usuario usuario : usuarios) {
-            UsuarioDTO usuarioDTO = UsuarioMapper.toUsuarioDTO(usuario);
+            MostrarUsuarioDTO usuarioDTO = UsuarioMapper.toMostrarUsuarioDTO(usuario);
             usuarioDTOS.add(usuarioDTO);
         }
         return usuarioDTOS;
     }
+
 }

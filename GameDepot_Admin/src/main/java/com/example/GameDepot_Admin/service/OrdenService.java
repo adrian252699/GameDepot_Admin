@@ -3,6 +3,7 @@ package com.example.GameDepot_Admin.service;
 import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
+import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
 import com.example.GameDepot_Admin.model.orden.Orden;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 import com.example.GameDepot_Admin.repository.OrdenRepository;
@@ -41,7 +42,7 @@ public class OrdenService {
         return OrdenMapper.toOrdenDTOList(ordenesMes);
     }
 
-    public List<UsuarioDTO> getUsuariosPorOrdenEntregada() {
+    public List<MostrarUsuarioDTO> getUsuariosPorOrdenEntregada() {
 
         List<OrdenDTO> ordenesMes = this.getOrdenesEntregadasDelMes().stream()
                 .filter(orden -> EstadoOrden.ENTREGADO.name().equals(orden.getEstado()))
@@ -53,10 +54,10 @@ public class OrdenService {
             usuariosPorOrden.add(ordenRepository.findUsuarioByOrdenId(orden.getId()).orElse(null));
         }
 
-        return UsuarioMapper.toUsuarioDTOList(usuariosPorOrden);
+        return UsuarioMapper.toMostrarUsuarioDTOList(usuariosPorOrden);
     }
 
-    public List<UsuarioDTO> getUsuariosPorOrden() {
+    public List<MostrarUsuarioDTO> getUsuariosPorOrden() {
 
         List<Orden> ordenes = ordenRepository.findAll();
 
@@ -68,6 +69,6 @@ public class OrdenService {
             usuariosPorOrden.add(ordenRepository.findUsuarioByOrdenId(ordenDTO.getId()).orElse(null));
         }
 
-        return UsuarioMapper.toUsuarioDTOList(usuariosPorOrden);
+        return UsuarioMapper.toMostrarUsuarioDTOList(usuariosPorOrden);
     }
 }

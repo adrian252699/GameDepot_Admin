@@ -48,7 +48,7 @@ public class GameDepotController {
 
         List<OrdenDTO> pedidosRecientes = ordenService.getOrdenesEntregadasDelMes();
 
-        List<UsuarioDTO> compradores = ordenService.getUsuariosPorOrdenEntregada();
+        List<MostrarUsuarioDTO> compradores = ordenService.getUsuariosPorOrdenEntregada();
         Map<Long, String> compradoresPorId = new HashMap<>();
 
         for (var comprador : compradores) {
@@ -103,7 +103,7 @@ public class GameDepotController {
     public String pedidos(Model model) {
         List<OrdenDTO> pedidosRecientes = ordenService.getOrdenes();
 
-        List<UsuarioDTO> compradores = ordenService.getUsuariosPorOrden();
+        List<MostrarUsuarioDTO> compradores = ordenService.getUsuariosPorOrden();
         Map<Long, String> compradoresPorId = new HashMap<>();
 
         for (var comprador : compradores) {
@@ -135,6 +135,13 @@ public class GameDepotController {
 
     @GetMapping("/usuarios")
     public String usuarios(Model model) {
+
+        List<MostrarUsuarioDTO> usuarios = usuarioService.mostrarUsuarios();
+
+        System.out.println(usuarios);
+
+        model.addAttribute("usuarios", usuarios);
+
         return  "usuarios";
     }
 
