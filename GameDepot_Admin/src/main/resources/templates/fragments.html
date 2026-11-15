@@ -8,6 +8,10 @@
             <div class="brand">
                 <div class="brand-ic">GD</div>GameDepot Admin
             </div>
+            <section class="panel">
+                <h1 th:text="|Bienvenido, ${nombreAdmin}|">Bienvenido</h1>
+                <p th:text="${emailAdmin}"></p>
+            </section>
             <a class="acct" th:href="@{/dashboard}">Admin</a>
         </div>
 

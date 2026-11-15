@@ -38,7 +38,7 @@ public class VideojuegoService {
         return  VideojuegoMapper.toMostrarVideojuegoDTOList(videojuegos.stream().filter(v -> v.getActivo()==true).toList());
     }
 
-    /* este metodo corresponde a un admin no a un usuario
+
     public ActualizarVideojuegoDTO actualizarVideojuego(Long id, ActualizarVideojuegoDTO videojuegoEditado) {
         return VideojuegoMapper.toActualizarVideojuegoDTO(videojuegoRepository.findById(id).map(videojuego ->{
             if (videojuegoEditado.getNombre() != null) {
@@ -86,7 +86,7 @@ public class VideojuegoService {
             return videojuegoRepository.save(videojuego);
 
         }).orElseThrow(() -> new RecursoNoEncontradoException("Producto con ID " + id + " no encontrado.")));
-    }*/
+    }
 
     private void validarPrecio(BigDecimal precio) {
         if (precio.compareTo(BigDecimal.ZERO) < 0) {

@@ -1,23 +1,16 @@
 package com.example.GameDepot_Admin.service.mappers;
 
+import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
+import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.RolUsuario;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
+import com.example.GameDepot_Admin.model.orden.Orden;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 
-public class UsuarioMapper {
-    public static RegistrarUsuarioDTO toRegistrarUsuarioDTO(Usuario usuario) {
-        if (usuario == null) {
-            return null;
-        }
+import java.util.ArrayList;
+import java.util.List;
 
-        return new RegistrarUsuarioDTO(
-                usuario.getNombre(),
-                usuario.getEmail(),
-                usuario.getRol().toString(),
-                usuario.getPais(),
-                usuario.getFechaRegistro()
-        );
-    }
+public class UsuarioMapper {
 
     public static MostrarUsuarioDTO toMostrarUsuarioDTO(Usuario usuario) {
         if (usuario == null) {
@@ -49,18 +42,29 @@ public class UsuarioMapper {
         );
     }
 
-    public static ActualizarUsuarioDTO toActualizarUsuarioDTO(Usuario usuario) {
+    public static UsuarioDTO toUsuarioDTO(Usuario usuario) {
         if (usuario == null) {
             return null;
         }
 
-        return new ActualizarUsuarioDTO(
+        return new UsuarioDTO(
                 usuario.getId(),
                 usuario.getNombre(),
                 usuario.getEmail(),
-                usuario.getPassword(),
+                usuario.getFechaRegistro(),
                 usuario.getRol().toString(),
-                usuario.getFechaRegistro()
+                usuario.getPais(),
+                usuario.getActivo()
         );
+    }
+
+    public static List<UsuarioDTO> toUsuarioDTOList(List<Usuario> usuarios) {
+        List<UsuarioDTO> usuarioDTOS = new ArrayList<>();
+
+        for (Usuario usuario : usuarios) {
+            UsuarioDTO usuarioDTO = UsuarioMapper.toUsuarioDTO(usuario);
+            usuarioDTOS.add(usuarioDTO);
+        }
+        return usuarioDTOS;
     }
 }

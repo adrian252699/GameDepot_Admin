@@ -46,30 +46,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Datos de prueba estaticos combinados con Thymeleaf -->
                             <tr th:each="pedido : ${pedidosRecientes}">
-                                <td class="mono hide-m">REF-9021</td>
-                                <td>xX_Sniper_Xx</td>
-                                <td class="hide-t">Hoy, 14:30</td>
-                                <td>$59.99</td>
-                                <td><span class="status">Entregado</span></td>
-                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
+                                <td class="mono hide-m" th:text="${pedido.folio}">REF-9021</td>
+
+                                <td th:text="${compradoresPorId[pedido.usuarioId].nombre ?: ('Usuario #' + pedido.usuarioId)}">
+                                    Nombre del comprador
+                                </td>
+
+                                <td class="hide-t" th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}">
+                                    14/11/2026 14:30
+                                </td>
+
+                                <td th:text="|$${#numbers.formatDecimal(pedido.total, 1, 2)}|">$59.99</td>
+
+                                <td>
+                                    <span class="status"
+                                        th:classappend="${pedido.estado != null and pedido.estado == 'PENDIENTE' ? 'warn' : ''}"
+                                        th:text="${pedido.estado}">
+                                        Entregado
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a class="link-s" th:href="@{/pedidos/{id}/gestionar(id=${pedido.id})}">
+                                        Gestionar
+                                    </a>
+                                </td>
                             </tr>
-                            <tr>
-                                <td class="mono hide-m">REF-9020</td>
-                                <td>MartaGamer</td>
-                                <td class="hide-t">Hoy, 13:15</td>
-                                <td>$14.50</td>
-                                <td><span class="status">Entregado</span></td>
-                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
-                            </tr>
-                            <tr>
-                                <td class="mono hide-m">REF-9019</td>
-                                <td>DarkKnight99</td>
-                                <td class="hide-t">Hoy, 11:05</td>
-                                <td>$89.90</td>
-                                <td><span class="status warn">Pendiente</span></td>
-                                <td><a th:href="@{/pedidos/gestionar}" class="link-s">Gestionar</a></td>
+
+                            <tr th:if="${#lists.isEmpty(pedidosRecientes)}">
+                                <td colspan="6">No hay pedidos registrados este mes.</td>
                             </tr>
                         </tbody>
                     </table>

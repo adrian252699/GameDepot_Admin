@@ -2,6 +2,7 @@ package com.example.GameDepot_Admin.model.orden;
 
 
 import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
+import com.example.GameDepot_Admin.dto.enums.EstadoPago;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,4 +43,8 @@ public class Orden {
 
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemOrden> items;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoPago estadoPago;
 }

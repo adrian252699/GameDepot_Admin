@@ -38,6 +38,9 @@ public class Usuario {
     @Column(nullable = false)
     private String pais;
 
+    @Column
+    private Boolean activo;
+
     public Usuario(Long id, String nombre, String email, RolUsuario rol, LocalDateTime fechaRegistro, String pais) {
         this.id = id;
         this.nombre = nombre;

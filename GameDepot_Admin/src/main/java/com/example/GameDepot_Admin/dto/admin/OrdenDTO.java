@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PedidoDTO {
+public class OrdenDTO {
     private Long id;
     private String estado;
     private LocalDateTime fecha;
