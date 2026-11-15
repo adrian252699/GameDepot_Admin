@@ -21,7 +21,7 @@ public class EstadisticasService {
     private VideojuegoRepository  videojuegoRepository;
 
     public EstadisticasDTO getEstadisticasDTO() {
-        List<OrdenDTO> ordenes = ordenService.getOrdenesMes().stream()
+        List<OrdenDTO> ordenes = ordenService.getOrdenesEntregadasDelMes().stream()
                 .filter(orden -> EstadoOrden.ENTREGADO.name().equals(orden.getEstado()))
                 .toList();
 

@@ -21,40 +21,42 @@
                 <div class="panel">
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th class="hide-t">SKU</th>
-                                <th>Titulo</th>
-                                <th class="hide-m">Plataforma</th>
-                                <th>Precio</th>
-                                <th class="hide-m">Stock</th>
-                                <th>Acciones</th>
-                            </tr>
+                        <tr>
+                            <th>Título</th>
+                            <th class="hide-m">Plataforma</th>
+                            <th>Precio</th>
+                            <th class="hide-m">Stock</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
                         </thead>
+
                         <tbody>
-                            <tr>
-                                <td class="mono hide-t">CS-8820-STM</td>
-                                <td>CyberStrike: 2088 Neon Protocol</td>
-                                <td class="hide-m"><span class="pill">Steam PC</span></td>
-                                <td>$34.50</td>
-                                <td class="hide-m">18</td>
-                                <td><a th:href="@{/productos/editar}" class="link-s">Editar</a></td>
-                            </tr>
-                            <tr>
-                                <td class="mono hide-t">ELD-0091-PS5</td>
-                                <td>Elden Shadows: Abyssal Exp</td>
-                                <td class="hide-m"><span class="pill">PS5</span></td>
-                                <td>$69.99</td>
-                                <td class="hide-m">50+</td>
-                                <td><a th:href="@{/productos/editar}" class="link-s">Editar</a></td>
-                            </tr>
-                            <tr>
-                                <td class="mono hide-t">APX-7712-XBX</td>
-                                <td>Apex Phantom Elite: Zero</td>
-                                <td class="hide-m"><span class="pill">Xbox</span></td>
-                                <td>$45.00</td>
-                                <td class="hide-m">2</td>
-                                <td><a th:href="@{/productos/editar}" class="link-s">Editar</a></td>
-                            </tr>
+                        <tr th:each="videojuego : ${videojuegos}">
+                            <td th:text="${videojuego.nombre}">Título</td>
+                            <td class="hide-m" th:text="${videojuego.plataforma}">Steam</td>
+                            <td th:text="|$${#numbers.formatDecimal(videojuego.precio, 1, 2)}|">$59.99</td>
+                            <td class="hide-m" th:text="${videojuego.stock}">3</td>
+
+                            <td>
+                                <span class="status"
+                                      th:classappend="${videojuego.activo != null ? 'warn' : ''}"
+                                      th:text="${videojuego.activo}">
+                                        Entregado
+                                </span>
+                            </td>
+
+                            <td>
+                                <a class="link-s"
+                                   th:href="@{/catalogo/{id}/editar(id=${videojuego.id})}">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(videojuegos)}">
+                            <td colspan="5">No hay videojuegos registrados.</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

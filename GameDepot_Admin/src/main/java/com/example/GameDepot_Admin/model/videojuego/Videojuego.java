@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,15 @@ public class Videojuego {
 
     @Column(nullable = false)
     private Boolean activo;
+
+    @Column(nullable = false)
+    private String plataforma;
+
+    @Column(nullable = false)
+    private String region;
+
+    @OneToMany(mappedBy = "videojuego")
+    private List<Keys> claves = new ArrayList<>();
 
     @Column()
     @OneToMany(mappedBy ="videojuego",cascade = CascadeType.ALL, fetch = FetchType.LAZY)

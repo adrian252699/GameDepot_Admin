@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,4 +19,7 @@ public class GuardarVideojuegoDTO {
     private BigDecimal precio;
     private Integer stock;
     private Boolean activo;
+    private String plataforma;
+    private String region;
+    private List<KeyDTO> key;
 }

@@ -33,11 +33,11 @@
                 </div>
 
                 <div class="panel">
-                    <h3 style="margin-bottom:16px">Ultimos Pedidos Procesados</h3>
+                    <h3 style="margin-bottom:16px">Ultimos Pedidos Completados</h3>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="hide-m">Referencia</th> <!-- Oculto en movil -->
+                                <th class="hide-m">Folio</th> <!-- Oculto en movil -->
                                 <th>Comprador</th>
                                 <th class="hide-t">Fecha</th> <!-- Oculto en movil y tablet -->
                                 <th>Monto</th>
@@ -49,7 +49,7 @@
                             <tr th:each="pedido : ${pedidosRecientes}">
                                 <td class="mono hide-m" th:text="${pedido.folio}">REF-9021</td>
 
-                                <td th:text="${compradoresPorId[pedido.usuarioId].nombre ?: ('Usuario #' + pedido.usuarioId)}">
+                                <td th:text="${compradoresPorId[pedido.usuarioId] ?: ('Usuario #' + pedido.usuarioId)}">
                                     Nombre del comprador
                                 </td>
 

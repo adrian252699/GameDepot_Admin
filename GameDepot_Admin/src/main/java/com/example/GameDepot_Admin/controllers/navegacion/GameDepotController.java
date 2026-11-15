@@ -5,9 +5,11 @@ import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.ProductoDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
+import com.example.GameDepot_Admin.dto.videojuego.MostrarVideojuegoDTO;
 import com.example.GameDepot_Admin.service.EstadisticasService;
 import com.example.GameDepot_Admin.service.OrdenService;
 import com.example.GameDepot_Admin.service.UsuarioService;
+import com.example.GameDepot_Admin.service.VideojuegoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class GameDepotController {
@@ -28,6 +32,9 @@ public class GameDepotController {
     @Autowired
     private OrdenService ordenService;
 
+    @Autowired
+    private VideojuegoService videojuegoService;
+
     @GetMapping({"/","/login"})
     public String index(){
         return "login";
@@ -39,12 +46,17 @@ public class GameDepotController {
 
         MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
 
-        List<OrdenDTO> pedidosRecientes = ordenService.getOrdenesMes();
+        List<OrdenDTO> pedidosRecientes = ordenService.getOrdenesEntregadasDelMes();
 
-        List<UsuarioDTO> usuariosOrden = ordenService.getUsuariosPorOrden();
+        List<UsuarioDTO> compradores = ordenService.getUsuariosPorOrdenEntregada();
+        Map<Long, String> compradoresPorId = new HashMap<>();
+
+        for (var comprador : compradores) {
+            compradoresPorId.put(comprador.getId(), comprador.getNombre());
+        }
 
         model.addAttribute("pedidosRecientes",pedidosRecientes);
-        model.addAttribute("compradoresPorId", usuariosOrden);
+        model.addAttribute("compradoresPorId", compradoresPorId);
 
         model.addAttribute("stats", stats);
         model.addAttribute("nombreAdmin", admin.getNombre());
@@ -55,6 +67,10 @@ public class GameDepotController {
 
     @GetMapping("/catalogo")
     public String productos(Model model) {
+        List<MostrarVideojuegoDTO> listaVideojuegos = videojuegoService.mostrarVideojuego();
+
+        model.addAttribute("videojuegos", listaVideojuegos);
+
         return  "catalogo";
     }
 
@@ -85,6 +101,18 @@ public class GameDepotController {
 
     @GetMapping("/pedidos")
     public String pedidos(Model model) {
+        List<OrdenDTO> pedidosRecientes = ordenService.getOrdenes();
+
+        List<UsuarioDTO> compradores = ordenService.getUsuariosPorOrden();
+        Map<Long, String> compradoresPorId = new HashMap<>();
+
+        for (var comprador : compradores) {
+            compradoresPorId.put(comprador.getId(), comprador.getNombre());
+        }
+
+        model.addAttribute("pedidosRecientes",pedidosRecientes);
+        model.addAttribute("compradoresPorId", compradoresPorId);
+
         return  "pedidos";
     }
 

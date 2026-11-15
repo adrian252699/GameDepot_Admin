@@ -20,13 +20,18 @@ public class VideojuegoService {
     @Autowired
     private VideojuegoRepository videojuegoRepository;
 
-    /* Este endpoint corresponde a un admin
+
     public GuardarVideojuegoDTO guardarVideojuego(GuardarVideojuegoDTO videojuegoDTO) {
 
         Videojuego videojuegoEntity = videojuegoRepository.save(VideojuegoMapper.toVideojuegoEntity(videojuegoDTO));
 
         return VideojuegoMapper.toGuardarVideojuegoDTO(videojuegoEntity);
-    }*/
+    }
+
+    public List<MostrarVideojuegoDTO> mostrarVideojuego() {
+        List<Videojuego> videojuegos = videojuegoRepository.findAll();
+        return VideojuegoMapper.toMostrarVideojuegoDTOList(videojuegos);
+    }
 
 
     public MostrarVideojuegoDTO obtenerPorId(Long id) {

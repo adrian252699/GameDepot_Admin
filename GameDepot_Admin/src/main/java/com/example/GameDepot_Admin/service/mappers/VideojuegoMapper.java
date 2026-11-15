@@ -1,10 +1,8 @@
 package com.example.GameDepot_Admin.service.mappers;
 
-import com.example.GameDepot_Admin.dto.videojuego.ActualizarVideojuegoDTO;
-import com.example.GameDepot_Admin.dto.videojuego.CategoriaDTO;
-import com.example.GameDepot_Admin.dto.videojuego.GuardarVideojuegoDTO;
-import com.example.GameDepot_Admin.dto.videojuego.MostrarVideojuegoDTO;
+import com.example.GameDepot_Admin.dto.videojuego.*;
 import com.example.GameDepot_Admin.model.videojuego.Categoria;
+import com.example.GameDepot_Admin.model.videojuego.Keys;
 import com.example.GameDepot_Admin.model.videojuego.Videojuego;
 
 import java.util.ArrayList;
@@ -49,8 +47,29 @@ public class VideojuegoMapper {
                 videojuego.getDescripcion(),
                 videojuego.getPrecio(),
                 videojuego.getStock(),
-                videojuego.getActivo()
+                videojuego.getActivo(),
+                videojuego.getPlataforma(),
+                videojuego.getRegion(),
+                toKeyDTOList(videojuego.getClaves())
         );
+    }
+
+    public static List<KeyDTO> toKeyDTOList(List<Keys> keys){
+        List<KeyDTO> keyDTOList = new ArrayList<>();
+        for (Keys key : keys) {
+            keyDTOList.add(toKeyDTO(key));
+        }
+
+        return keyDTOList;
+    }
+
+    public static KeyDTO toKeyDTO(Keys key){
+        KeyDTO keyDTO = new KeyDTO();
+        keyDTO.setId(key.getId());
+        keyDTO.setCodigo(key.getCodigo());
+        keyDTO.setVideojuego(key.getVideojuego());
+
+        return keyDTO;
     }
 
     public static MostrarVideojuegoDTO toMostrarVideojuegoDTO(Videojuego videojuego) {
@@ -69,7 +88,10 @@ public class VideojuegoMapper {
                 videojuego.getDescripcion(),
                 videojuego.getPrecio(),
                 videojuego.getStock(),
-                videojuego.getActivo()
+                videojuego.getActivo(),
+                videojuego.getPlataforma(),
+                videojuego.getRegion()
+
         );
     }
 
