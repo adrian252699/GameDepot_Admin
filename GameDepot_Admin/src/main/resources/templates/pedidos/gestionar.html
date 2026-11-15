@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar pedido - GameDepot Admin</title>
+    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
     <link rel="stylesheet" th:href="@{/styles/admin.css}">
 </head>
 
@@ -69,7 +71,6 @@
                             <tr>
                                 <th scope="col">Videojuego</th>
                                 <th scope="col">Precio unitario</th>
-                                <th scope="col">Cantidad</th>
                                 <th scope="col">Claves asignadas</th>
                             </tr>
                         </thead>
@@ -77,7 +78,6 @@
                             <tr th:each="item : ${itemsPedido}">
                                 <td th:text="${item.nombreVideojuego}"></td>
                                 <td th:text="${'$' + #numbers.formatDecimal(item.precioUnitario, 1, 2)}"></td>
-                                <td th:text="${item.cantidad}"></td>
                                 <td>
                                     <code class="mono" style="display: block; overflow-wrap: anywhere"
                                           th:each="clave : ${item.claves}" th:text="${clave}"></code>
@@ -94,29 +94,107 @@
                 </section>
 
                 <section class="panel" aria-labelledby="cambiar-estado"
-                         th:with="puedeCambiar=${estadosDisponibles != null and !estadosDisponibles.isEmpty()}">
+                         th:with="puedeCambiarPedido=${estadosDisponibles != null and !#lists.isEmpty(estadosDisponibles)},
+                                  puedeCambiarPago=${estadosPagoDisponibles != null and !#lists.isEmpty(estadosPagoDisponibles)}">
                     <div class="sec-head">
-                        <h3 id="cambiar-estado">Cambiar estado del pedido</h3>
+                        <h3 id="cambiar-estado">Cambiar estados</h3>
                     </div>
-                    <form class="fgrid" method="post" th:if="${puedeCambiar}"
-                          th:action="@{/pedidos/{id}/estado(id=${pedido.id})}">
-                        <div class="field">
-                            <label for="estado">Nuevo estado</label>
-                            <select class="input" id="estado" name="estado" required>
-                                <option value="" selected disabled>Selecciona un estado</option>
-                                <option th:each="estado : ${estadosDisponibles}" th:value="${estado}"
-                                        th:text="${estado}"></option>
+                    <form id="estados-pedido-form" class="fgrid" method="post" th:if="${puedeCambiarPedido or puedeCambiarPago}"
+                          th:action="@{/api/orden/{id}(id=${pedido.id})}"
+                          th:attr="data-pedidos-url=@{/pedidos}">
+                        <p id="estados-pedido-mensaje" role="status" style="grid-column: 1 / -1"></p>
+                        <div class="field" th:if="${puedeCambiarPedido}">
+                            <label for="estado">Estado del pedido</label>
+                            <select class="input" id="estado" name="estado">
+                                <option value="" selected>Conservar estado actual</option>
+                                <option th:each="estado : ${estadosDisponibles}"
+                                        th:value="${estado}" th:text="${estado}"></option>
+                            </select>
+                        </div>
+                        <div class="field" th:if="${puedeCambiarPago}">
+                            <label for="estadoPago">Estado del pago</label>
+                            <select class="input" id="estadoPago" name="estadoPago">
+                                <option value="" selected>Conservar estado actual</option>
+                                <option th:each="estadoPago : ${estadosPagoDisponibles}"
+                                        th:value="${estadoPago}" th:text="${estadoPago}"></option>
                             </select>
                         </div>
                         <div class="form-actions" style="grid-column: 1 / -1">
-                            <button class="btn-primary" type="submit">Guardar estado</button>
+                            <button type="submit" class="btn-primary">GUARDAR CAMBIOS</button>
+                            <a th:href="@{/pedidos}" class="btn-ghost">CANCELAR</a>
                         </div>
                     </form>
-                    <p th:unless="${puedeCambiar}">No hay cambios de estado disponibles para este pedido.</p>
+                    <p th:unless="${puedeCambiarPedido or puedeCambiarPago}">
+                        No hay cambios de estado disponibles para este pedido.
+                    </p>
                 </section>
             </main>
         </div>
     </div>
+    <script>
+        const formulario = document.getElementById('estados-pedido-form');
+
+        if (formulario) {
+            const mensaje = document.getElementById('estados-pedido-mensaje');
+            const boton = formulario.querySelector('button[type="submit"]');
+
+            formulario.addEventListener('submit', async (evento) => {
+                evento.preventDefault();
+                mensaje.textContent = '';
+
+                const datos = new FormData(formulario);
+                const cambios = {};
+
+                const estado = datos.get('estado');
+                const estadoPago = datos.get('estadoPago');
+                if (estado) cambios.estado = estado;
+                if (estadoPago) cambios.estadoPago = estadoPago;
+
+                if (Object.keys(cambios).length === 0) {
+                    mensaje.textContent = 'Selecciona al menos un estado para cambiar.';
+                    return;
+                }
+
+                boton.disabled = true;
+
+                try {
+                    const headers = {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    };
+                    const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+                    const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                    if (csrfHeader && csrfToken) {
+                        headers[csrfHeader] = csrfToken;
+                    }
+
+                    const respuesta = await fetch(formulario.action, {
+                        method: 'PATCH',
+                        credentials: 'same-origin',
+                        redirect: 'manual',
+                        headers,
+                        body: JSON.stringify(cambios)
+                    });
+
+                    if (respuesta.type === 'opaqueredirect' || respuesta.status === 401) {
+                        mensaje.textContent = 'La solicitud fue redirigida. Revisa tu sesión.';
+                        return;
+                    }
+
+                    if (!respuesta.ok) {
+                        mensaje.textContent = `No se pudieron guardar los cambios (${respuesta.status}).`;
+                        return;
+                    }
+
+                    window.location.assign(formulario.dataset.pedidosUrl);
+                } catch {
+                    mensaje.textContent = 'No se pudo conectar con el servidor.';
+                } finally {
+                    boton.disabled = false;
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

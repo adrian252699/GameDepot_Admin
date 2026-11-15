@@ -1,10 +1,11 @@
 package com.example.GameDepot_Admin.service;
 
 import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
-import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
+import com.example.GameDepot_Admin.dto.orden.ActualizarEstadosOrdenDTO;
 import com.example.GameDepot_Admin.dto.orden.ItemOrdenDTO;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
+import com.example.GameDepot_Admin.exception.NegocioException;
 import com.example.GameDepot_Admin.exception.RecursoNoEncontradoException;
 import com.example.GameDepot_Admin.model.orden.Orden;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
@@ -99,5 +100,28 @@ public class OrdenService {
                                 .toList()
                 ))
                 .toList();
+    }
+
+    public ActualizarEstadosOrdenDTO actualizarEstadosOrden(Long ordenId, ActualizarEstadosOrdenDTO datosActualizar) {
+        if (ordenId == null || ordenId <= 0) {
+            throw new NegocioException("El ID del usuario debe ser un número positivo.");
+        }
+        if (datosActualizar == null) {
+            throw new NegocioException("Los datos del pedido no pueden ser nulos.");
+        }
+
+        return OrdenMapper.toActualizarEstadosOrdenDTO(ordenRepository.findById(ordenId).map(orden -> {
+
+            if (datosActualizar.getEstadoPago() != null) {
+                orden.setEstadoPago(datosActualizar.getEstadoPago());
+            }
+
+            if (datosActualizar.getEstado() != null) {
+                orden.setEstado(datosActualizar.getEstado());
+            }
+
+            return ordenRepository.save(orden);
+
+        }).orElseThrow(() ->new RecursoNoEncontradoException("Orden no encontrada")));
     }
 }

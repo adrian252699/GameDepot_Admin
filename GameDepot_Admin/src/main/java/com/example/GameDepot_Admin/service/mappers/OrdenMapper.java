@@ -1,6 +1,8 @@
 package com.example.GameDepot_Admin.service.mappers;
 
 import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
+import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
+import com.example.GameDepot_Admin.dto.orden.ActualizarEstadosOrdenDTO;
 import com.example.GameDepot_Admin.model.orden.Orden;
 
 import java.util.ArrayList;
@@ -30,5 +32,14 @@ public class OrdenMapper {
             ordenesDTO.add(ordenDTO);
         }
         return ordenesDTO;
+    }
+
+    public static ActualizarEstadosOrdenDTO toActualizarEstadosOrdenDTO(Orden orden) {
+        ActualizarEstadosOrdenDTO ordenDTO = new ActualizarEstadosOrdenDTO();
+
+        ordenDTO.setEstado(orden.getEstado());
+        ordenDTO.setEstadoPago(orden.getEstadoPago());
+
+        return ordenDTO;
     }
 }

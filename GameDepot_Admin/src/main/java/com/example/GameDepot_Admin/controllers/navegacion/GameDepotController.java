@@ -4,6 +4,8 @@ import com.example.GameDepot_Admin.dto.admin.EstadisticasDTO;
 import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.ProductoDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
+import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
+import com.example.GameDepot_Admin.dto.enums.EstadoPago;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
 import com.example.GameDepot_Admin.dto.videojuego.*;
 import com.example.GameDepot_Admin.service.EstadisticasService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,8 +149,23 @@ public class GameDepotController {
     public String gestionarPedidos(@PathVariable("id") Long id, Model model,Principal principal) {
         OrdenDTO pedido = ordenService.obtenerOrdenPorId(id);
 
+        List<String> estadosPedidoPermitidos = new ArrayList<>();
+
+        for (EstadoOrden estadoOrden : EstadoOrden.values()) {
+            estadosPedidoPermitidos.add(estadoOrden.name());
+        }
+
+        List<String> estadosPagoPermitidos = new ArrayList<>();
+
+        for (EstadoPago estadoPago : EstadoPago.values()) {
+            estadosPagoPermitidos.add(estadoPago.name());
+        }
+
         model.addAttribute("itemsPedido", ordenService.listarItemsDelPedido(id));
         model.addAttribute("pedido", pedido);
+
+        model.addAttribute("estadosDisponibles", estadosPedidoPermitidos);
+        model.addAttribute("estadosPagoDisponibles", estadosPagoPermitidos);
 
         /*Mostrar datos del admin*/
         MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
