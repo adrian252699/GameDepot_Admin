@@ -22,12 +22,8 @@
                     <a th:href="@{/catalogo}" class="btn-ghost">Volver al catálogo</a>
                 </div>
                 <div class="panel">
-                    <form id="videojuego-form"
-                          th:action="@{/api/videojuego/{id}(id=${videojuego.id})}"
-                          th:object="${videojuego}"
-                          th:attr="data-catalogo-url=@{/catalogo}"
-                          method="post"
-                          class="fgrid">
+                    <form id="videojuego-form" th:action="@{/api/videojuego/{id}(id=${videojuego.id})}"
+                        th:object="${videojuego}" th:attr="data-catalogo-url=@{/catalogo}" method="post" class="fgrid">
                         <p id="videojuego-mensaje" role="status" style="grid-column: 1 / -1"></p>
                         <div class="field">
                             <label>Id del juego</label>
@@ -35,7 +31,8 @@
                         </div>
                         <div class="field">
                             <label>Nombre del juego</label>
-                            <input type="text" th:field="*{nombre}" class="input" placeholder="Ej. CyberStrike 2088" required>
+                            <input type="text" th:field="*{nombre}" class="input" placeholder="Ej. CyberStrike 2088"
+                                required>
                         </div>
                         <div class="field">
                             <label for="plataforma">Plataformas</label>
@@ -44,11 +41,10 @@
                                     Selecciona una Plataforma
                                 </option>
 
-                                <option th:each="plataforma : ${plataformas}"
-                                        th:value="${plataforma.id}"
-                                        th:text="${plataforma.nombre}"
-                                        th:selected="${plataforma.id == videojuego.plataforma?.id}"
-                                        th:attr="data-nombre=${plataforma.nombre}">
+                                <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}"
+                                    th:text="${plataforma.nombre}"
+                                    th:selected="${plataforma.id == videojuego.plataforma?.id}"
+                                    th:attr="data-nombre=${plataforma.nombre}">
                                 </option>
                             </select>
                         </div>
@@ -59,17 +55,16 @@
                                     Selecciona una Region
                                 </option>
 
-                                <option th:each="region : ${regiones}"
-                                        th:value="${region.id}"
-                                        th:text="${region.nombre}"
-                                        th:selected="${region.id == videojuego.region?.id}"
-                                        th:attr="data-nombre=${region.nombre}">
+                                <option th:each="region : ${regiones}" th:value="${region.id}"
+                                    th:text="${region.nombre}" th:selected="${region.id == videojuego.region?.id}"
+                                    th:attr="data-nombre=${region.nombre}">
                                 </option>
                             </select>
                         </div>
                         <div class="field">
                             <label>Precio (MXN)</label>
-                            <input type="number" th:field="*{precio}" step="0.01" class="input" placeholder="59.99" required>
+                            <input type="number" th:field="*{precio}" step="0.01" class="input" placeholder="59.99"
+                                required>
                         </div>
                         <div class="field">
                             <label>Stock / unidades disponibles</label>
@@ -82,11 +77,10 @@
                                     Selecciona una categoría
                                 </option>
 
-                                <option th:each="categoria : ${categorias}"
-                                        th:value="${categoria.id}"
-                                        th:text="${categoria.nombre}"
-                                        th:selected="${categoria.id == videojuego.categoria?.id}"
-                                        th:attr="data-nombre=${categoria.nombre},data-descripcion=${categoria.descripcion}">
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                    th:text="${categoria.nombre}"
+                                    th:selected="${categoria.id == videojuego.categoria?.id}"
+                                    th:attr="data-nombre=${categoria.nombre},data-descripcion=${categoria.descripcion}">
                                 </option>
                             </select>
                         </div>

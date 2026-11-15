@@ -21,42 +21,40 @@
                 <div class="panel">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th class="hide-m">Plataforma</th>
-                            <th>Precio</th>
-                            <th class="hide-m">Stock</th>
-                            <th>Activo</th>
-                            <th>Acciones</th>
-                        </tr>
+                            <tr>
+                                <th>Título</th>
+                                <th class="hide-m">Plataforma</th>
+                                <th>Precio</th>
+                                <th class="hide-m">Stock</th>
+                                <th>Activo</th>
+                                <th>Acciones</th>
+                            </tr>
                         </thead>
 
                         <tbody>
-                        <tr th:each="videojuego : ${videojuegos}">
-                            <td th:text="${videojuego.nombre}">Título</td>
-                            <td class="hide-m" th:text="${videojuego.plataforma.nombre}">Steam</td>
-                            <td th:text="|$${#numbers.formatDecimal(videojuego.precio, 1, 2)}|">$59.99</td>
-                            <td class="hide-m" th:text="${videojuego.stock}">3</td>
+                            <tr th:each="videojuego : ${videojuegos}">
+                                <td th:text="${videojuego.nombre}">Título</td>
+                                <td class="hide-m" th:text="${videojuego.plataforma.nombre}">Steam</td>
+                                <td th:text="|$${#numbers.formatDecimal(videojuego.precio, 1, 2)}|">$59.99</td>
+                                <td class="hide-m" th:text="${videojuego.stock}">3</td>
 
-                            <td>
-                                <span class="status"
-                                      th:classappend="${videojuego.activo != null ? 'warn' : ''}"
-                                      th:text="${videojuego.activo}">
+                                <td>
+                                    <span class="status" th:classappend="${videojuego.activo != null ? 'warn' : ''}"
+                                        th:text="${videojuego.activo}">
                                         Entregado
-                                </span>
-                            </td>
+                                    </span>
+                                </td>
 
-                            <td>
-                                <a class="link-s"
-                                   th:href="@{/catalogo/editar/{id}(id=${videojuego.id})}">
-                                    Editar
-                                </a>
-                            </td>
-                        </tr>
+                                <td>
+                                    <a class="link-s" th:href="@{/catalogo/editar/{id}(id=${videojuego.id})}">
+                                        Editar
+                                    </a>
+                                </td>
+                            </tr>
 
-                        <tr th:if="${#lists.isEmpty(videojuegos)}">
-                            <td colspan="5">No hay videojuegos registrados.</td>
-                        </tr>
+                            <tr th:if="${#lists.isEmpty(videojuegos)}">
+                                <td colspan="5">No hay videojuegos registrados.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

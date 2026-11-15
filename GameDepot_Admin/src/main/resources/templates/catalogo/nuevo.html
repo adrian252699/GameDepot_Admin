@@ -37,9 +37,9 @@
                                           <label for="plataforma">Plataformas</label>
                                           <select id="plataforma" name="plataforma" class="input" required>
                                                 <option value="" disabled selected>Selecciona una plataforma</option>
-                                                <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}"
-                                                        th:text="${plataforma.nombre}"
-                                                        th:attr="data-nombre=${plataforma.nombre}">
+                                                <option th:each="plataforma : ${plataformas}"
+                                                      th:value="${plataforma.id}" th:text="${plataforma.nombre}"
+                                                      th:attr="data-nombre=${plataforma.nombre}">
                                                 </option>
                                           </select>
                                     </div>
@@ -49,8 +49,7 @@
                                           <select id="region" name="region" class="input" required>
                                                 <option value="" disabled selected>Selecciona una region</option>
                                                 <option th:each="region : ${regiones}" th:value="${region.id}"
-                                                        th:text="${region.nombre}"
-                                                        th:attr="data-nombre=${region.nombre}">
+                                                      th:text="${region.nombre}" th:attr="data-nombre=${region.nombre}">
                                                 </option>
                                           </select>
                                     </div>
@@ -70,8 +69,8 @@
                                           <select id="categoria" name="categoria" class="input" required>
                                                 <option value="" disabled selected>Selecciona una categoría</option>
                                                 <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
-                                                        th:text="${categoria.nombre}"
-                                                        th:attr="data-nombre=${categoria.nombre},data-descripcion=${categoria.descripcion}">
+                                                      th:text="${categoria.nombre}"
+                                                      th:attr="data-nombre=${categoria.nombre},data-descripcion=${categoria.descripcion}">
                                                 </option>
                                           </select>
                                     </div>
@@ -167,7 +166,7 @@
                               const error = await respuesta.json().catch(() => null);
                               const detalles = Array.isArray(error?.details) ? error.details.join(' ') : '';
                               avisoError.textContent = detalles || error?.message
-                                      || `No se pudo guardar el videojuego (${respuesta.status}).`;
+                                    || `No se pudo guardar el videojuego (${respuesta.status}).`;
                               avisoError.hidden = false;
                               return;
                         }

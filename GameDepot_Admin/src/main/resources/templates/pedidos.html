@@ -30,37 +30,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="pedido : ${pedidosRecientes}">
-                            <td class="mono hide-m" th:text="${pedido.folio}">REF-9021</td>
+                            <tr th:each="pedido : ${pedidosRecientes}">
+                                <td class="mono hide-m" th:text="${pedido.folio}">REF-9021</td>
 
-                            <td th:text="${compradoresPorId[pedido.usuarioId] ?: ('Usuario #' + pedido.usuarioId)}">
-                                Nombre del comprador
-                            </td>
+                                <td th:text="${compradoresPorId[pedido.usuarioId] ?: ('Usuario #' + pedido.usuarioId)}">
+                                    Nombre del comprador
+                                </td>
 
-                            <td class="hide-t" th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}">
-                                14/11/2026 14:30
-                            </td>
+                                <td class="hide-t" th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}">
+                                    14/11/2026 14:30
+                                </td>
 
-                            <td th:text="|$${#numbers.formatDecimal(pedido.total, 1, 2)}|">$59.99</td>
+                                <td th:text="|$${#numbers.formatDecimal(pedido.total, 1, 2)}|">$59.99</td>
 
-                            <td>
+                                <td>
                                     <span class="status"
-                                          th:classappend="${pedido.estado != null and pedido.estado == 'PENDIENTE' ? 'warn' : ''}"
-                                          th:text="${pedido.estado}">
+                                        th:classappend="${pedido.estado != null and pedido.estado == 'PENDIENTE' ? 'warn' : ''}"
+                                        th:text="${pedido.estado}">
                                         Entregado
                                     </span>
-                            </td>
+                                </td>
 
-                            <td>
-                                <a class="link-s" th:href="@{/pedidos/gestionar/{id}(id=${pedido.id})}">
-                                    Gestionar
-                                </a>
-                            </td>
-                        </tr>
+                                <td>
+                                    <a class="link-s" th:href="@{/pedidos/gestionar/{id}(id=${pedido.id})}">
+                                        Gestionar
+                                    </a>
+                                </td>
+                            </tr>
 
-                        <tr th:if="${#lists.isEmpty(pedidosRecientes)}">
-                            <td colspan="6">No hay pedidos registrados este mes.</td>
-                        </tr>
+                            <tr th:if="${#lists.isEmpty(pedidosRecientes)}">
+                                <td colspan="6">No hay pedidos registrados este mes.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -22,7 +22,8 @@
                 <section class="panel" aria-labelledby="datos-usuario">
                     <div class="sec-head">
                         <h3 id="datos-usuario">Datos del usuario</h3>
-                        <span class="status" th:classappend="${usuario.activo ? '' : 'warn'}" th:text="${usuario.activo ? 'Cuenta activa' : 'Cuenta desactivada'}">Cuenta activa</span>
+                        <span class="status" th:classappend="${usuario.activo ? '' : 'warn'}"
+                            th:text="${usuario.activo ? 'Cuenta activa' : 'Cuenta desactivada'}">Cuenta activa</span>
                     </div>
                     <dl class="fgrid">
                         <div class="field">
@@ -35,8 +36,8 @@
                         </div>
                         <div class="field">
                             <dt class="eyebrow">Correo electrónico</dt>
-                            <dd class="input" style="overflow-wrap: anywhere"
-                                th:text="${usuario.email}">Correo del usuario</dd>
+                            <dd class="input" style="overflow-wrap: anywhere" th:text="${usuario.email}">Correo del
+                                usuario</dd>
                         </div>
                         <div class="field">
                             <dt class="eyebrow">Fecha de registro</dt>
@@ -78,7 +79,8 @@
                     <form class="fgrid" method="post" th:action="@{/usuarios/{id}/estado(id=${usuario.id})}">
                         <input type="hidden" name="activo" th:value="${!usuario.activo}">
                         <div class="form-actions" style="grid-column: 1 / -1">
-                            <button class="btn-primary" type="submit" th:text="${usuario.activo ? 'Desactivar cuenta' : 'Activar cuenta'}">
+                            <button class="btn-primary" type="submit"
+                                th:text="${usuario.activo ? 'Desactivar cuenta' : 'Activar cuenta'}">
                                 Desactivar cuenta
                             </button>
                         </div>
