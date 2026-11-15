@@ -35,8 +35,9 @@
                                 <td th:text="${usuario.rol}">ADMIN</td>
 
                                 <td>
-                                    <span class="status" th:classappend="${usuario.activo != null ? 'warn' : ''}"
-                                        th:text="${usuario.activo}">
+                                    <span class="status"
+                                          th:classappend="${usuario.activo == null ? 'warn' : (usuario.activo ? '' : 'inactivo')}"
+                                          th:text="${usuario.activo == null ? 'Sin estado' : (usuario.activo ? 'Activo' : 'Inactivo')}">
                                         Activo
                                     </span>
                                 </td>

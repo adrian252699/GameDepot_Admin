@@ -2,6 +2,7 @@ package com.example.GameDepot_Admin.service.mappers;
 
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.RolUsuario;
+import com.example.GameDepot_Admin.dto.usuario.ActualizarRolEstadoDTO;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 
@@ -22,6 +23,17 @@ public class UsuarioMapper {
                 usuario.getFechaRegistro(),
                 usuario.getRol().toString(),
                 usuario.getPais(),
+                usuario.getActivo()
+        );
+    }
+
+    public static ActualizarRolEstadoDTO toActualizarRolEstadoDTO(Usuario usuario) {
+        if (usuario == null) {
+            return null;
+        }
+
+        return new ActualizarRolEstadoDTO(
+                usuario.getRol(),
                 usuario.getActivo()
         );
     }

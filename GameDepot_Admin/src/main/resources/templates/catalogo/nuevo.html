@@ -28,13 +28,13 @@
                                     <p id="videojuego-error" role="alert" style="grid-column: 1 / -1" hidden></p>
 
                                     <div class="field">
-                                          <label>Titulo del Juego</label>
+                                          <label>NOMBRE DEL JUEGO</label>
                                           <input type="text" th:field="*{nombre}" class="input"
                                                 placeholder="Ej. CyberStrike 2088" required>
                                     </div>
 
                                     <div class="field">
-                                          <label for="plataforma">Plataformas</label>
+                                          <label for="plataforma">PLATAFORMA</label>
                                           <select id="plataforma" name="plataforma" class="input" required>
                                                 <option value="" disabled selected>Selecciona una plataforma</option>
                                                 <option th:each="plataforma : ${plataformas}"
@@ -45,7 +45,7 @@
                                     </div>
 
                                     <div class="field">
-                                          <label for="region">Region</label>
+                                          <label for="region">REGION</label>
                                           <select id="region" name="region" class="input" required>
                                                 <option value="" disabled selected>Selecciona una region</option>
                                                 <option th:each="region : ${regiones}" th:value="${region.id}"
@@ -55,17 +55,17 @@
                                     </div>
 
                                     <div class="field">
-                                          <label>Precio (MXN)</label>
+                                          <label>PRECIO (MXN)</label>
                                           <input type="number" th:field="*{precio}" step="0.01" class="input"
                                                 placeholder="59.99" required>
                                     </div>
                                     <div class="field">
-                                          <label>Stock / Unidades Disponibles</label>
+                                          <label>STOCK</label>
                                           <input type="number" th:field="*{stock}" class="input" placeholder="50"
                                                 required>
                                     </div>
                                     <div class="field">
-                                          <label for="categoria">Categoría principal</label>
+                                          <label for="categoria">CATEGORIA</label>
                                           <select id="categoria" name="categoria" class="input" required>
                                                 <option value="" disabled selected>Selecciona una categoría</option>
                                                 <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
@@ -75,13 +75,13 @@
                                           </select>
                                     </div>
                                     <div class="field" style="grid-column: 1 / -1">
-                                          <label>Descripcion del Producto</label>
+                                          <label>DESCRIPCION</label>
                                           <textarea th:field="*{descripcion}" class="input"
                                                 placeholder="Escribe los detalles, requisitos del sistema e incentivos de reserva..."></textarea>
                                     </div>
                                     <div class="form-actions" style="grid-column: 1 / -1">
-                                          <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
                                           <button type="submit" class="btn-primary">Guardar Producto</button>
+                                          <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
                                     </div>
                               </form>
                         </div>

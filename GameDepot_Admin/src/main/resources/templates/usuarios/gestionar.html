@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar usuario - GameDepot Admin</title>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link rel="stylesheet" th:href="@{/styles/admin.css}">
 </head>
 
@@ -43,10 +45,12 @@
                             <dt class="eyebrow">Fecha de registro</dt>
                             <dd class="input" th:text="${usuario.fechaRegistro}">Fecha de registro</dd>
                         </div>
+
                         <div class="field">
                             <dt class="eyebrow">Rol actual</dt>
                             <dd class="input" th:text="${usuario.rol}">Rol actual</dd>
                         </div>
+
                         <div class="field">
                             <dt class="eyebrow">País</dt>
                             <dd class="input" th:text="${usuario.pais}">País</dd>
@@ -54,41 +58,106 @@
                     </dl>
                 </section>
 
-                <section class="panel" aria-labelledby="cambiar-rol">
-                    <div class="sec-head">
-                        <h3 id="cambiar-rol">Cambiar Rol</h3>
-                    </div>
-                    <form class="fgrid" method="post" th:action="@{/usuarios/{id}/rol(id=${usuario.id})}">
-                        <div class="field">
-                            <label for="rol">Rol</label>
-                            <select class="input" id="rol" name="rol" required>
-                                <option value="admin">Admin</option>
-                                <option value="cliente">Cliente</option>
-                            </select>
-                        </div>
-                        <div class="form-actions" style="grid-column: 1 / -1;">
-                            <button class="btn-primary" type="submit">Guardar rol</button>
-                        </div>
-                    </form>
-                </section>
-
                 <section class="panel" aria-labelledby="estado-cuenta">
                     <div class="sec-head">
-                        <h3 id="estado-cuenta">Activar/Desactivar Cuenta</h3>
+                        <h3 id="estado-cuenta">ACTUALIZAR ROL Y ESTADO</h3>
                     </div>
-                    <form class="fgrid" method="post" th:action="@{/usuarios/{id}/estado(id=${usuario.id})}">
-                        <input type="hidden" name="activo" th:value="${!usuario.activo}">
+                    <form id="usuario-form" th:action="@{/api/usuario/{id}(id=${usuario.id})}"
+                          th:object="${usuario}" th:attr="data-usuarios-url=@{/usuarios}" method="post" class="fgrid">
+                        <p id="usuario-mensaje" role="status" style="grid-column: 1 / -1"></p>
+
+                        <div class="field">
+                            <label for="rol">ROL</label>
+                            <select class="input" id="rol" th:field="*{rol}" required>
+                                <option value="" disabled>Selecciona un rol</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="CLIENTE">Cliente</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="activo">ESTADO DEL USUARIO</label>
+                            <select id="activo" th:field="*{activo}" class="input" required>
+                                <option value="" disabled>Selecciona un estado</option>
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
+                            </select>
+                        </div>
+
                         <div class="form-actions" style="grid-column: 1 / -1">
-                            <button class="btn-primary" type="submit"
-                                th:text="${usuario.activo ? 'Desactivar cuenta' : 'Activar cuenta'}">
-                                Desactivar cuenta
-                            </button>
+                            <button type="submit" class="btn-primary">GUARDAR CAMBIOS</button>
+                            <a th:href="@{/usuarios}" class="btn-ghost">CANCELAR</a>
                         </div>
                     </form>
                 </section>
             </main>
         </div>
     </div>
+
+    <script>
+        const formulario = document.getElementById('usuario-form');
+        const mensaje = document.getElementById('usuario-mensaje');
+        const boton = formulario.querySelector('button[type="submit"]');
+        const originales = new FormData(formulario);
+
+        formulario.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensaje.textContent = '';
+
+            const campos = new FormData(formulario);
+            const valores = {
+                rol: campos.get('rol'),
+                activo: campos.get('activo') === 'true'
+            };
+
+            const cambios = Object.fromEntries(
+                Object.entries(valores).filter(([campo]) =>
+                    campos.get(campo) !== originales.get(campo)
+                )
+            );
+
+            if (Object.keys(cambios).length === 0) {
+                mensaje.textContent = 'No hay cambios para guardar.';
+                return;
+            }
+
+            boton.disabled = true;
+
+            try {
+                const cabeceraCsrf = document.querySelector('meta[name="_csrf_header"]').content;
+                const tokenCsrf = document.querySelector('meta[name="_csrf"]').content;
+
+                const respuesta = await fetch(formulario.action, {
+                    method: 'PATCH',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        [cabeceraCsrf]: tokenCsrf
+                    },
+                    body: JSON.stringify(cambios)
+                });
+
+                if (respuesta.redirected || respuesta.status === 401) {
+                    mensaje.textContent = 'Vuelve a iniciar sesión para guardar los cambios.';
+                    return;
+                }
+
+                if (!respuesta.ok) {
+                    const error = await respuesta.json().catch(() => null);
+                    mensaje.textContent = error?.message
+                        || `No se pudieron guardar los cambios (${respuesta.status}).`;
+                    return;
+                }
+
+                window.location.assign(formulario.dataset.usuariosUrl);
+            } catch (error) {
+                console.error(error);
+                mensaje.textContent = 'Ocurrió un error al enviar los cambios.';
+            } finally {
+                boton.disabled = false;
+            }
+        });
+    </script>
 </body>
 
 </html>

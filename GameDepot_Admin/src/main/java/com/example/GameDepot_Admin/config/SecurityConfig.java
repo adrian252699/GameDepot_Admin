@@ -78,10 +78,13 @@ public class SecurityConfig{
         var imagenes = rutas.matcher("/uploads/videojuegos/**");
         var crearVideojuego = rutas.matcher(HttpMethod.POST, "/api/videojuego");
         var editarVideojuego = rutas.matcher(HttpMethod.PATCH, "/api/videojuego/{id}");
+        var editarUsuario = rutas.matcher(HttpMethod.PATCH, "/api/usuario/{id}");
         return http
                 .securityMatcher(request ->
                         (rutasApi.matches(request) || imagenes.matches(request))
-                                && (!(crearVideojuego.matches(request) || editarVideojuego.matches(request))
+                                && (!(crearVideojuego.matches(request)
+                                || editarVideojuego.matches(request)
+                                || editarUsuario.matches(request))
                                 || request.getHeader(HttpHeaders.AUTHORIZATION) != null)
                 )
                 .csrf(csrf -> csrf.disable())
@@ -101,6 +104,7 @@ public class SecurityConfig{
                         .requestMatchers("/api/carrito/**", "/api/carrito/items/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/api/ordenes").hasRole("CLIENTE")
                         .requestMatchers("/api/ordenes/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/usuario/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -45,8 +45,6 @@ public class GameDepotController {
     public String dashboard(Principal principal, Model model) {
         EstadisticasDTO stats = estadisticasService.getEstadisticasDTO();
 
-        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
-
         List<OrdenDTO> pedidosRecientes = ordenService.getOrdenesEntregadasDelMes();
 
         List<MostrarUsuarioDTO> compradores = ordenService.getUsuariosPorOrdenEntregada();
@@ -58,8 +56,10 @@ public class GameDepotController {
 
         model.addAttribute("pedidosRecientes",pedidosRecientes);
         model.addAttribute("compradoresPorId", compradoresPorId);
-
         model.addAttribute("stats", stats);
+
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
         model.addAttribute("nombreAdmin", admin.getNombre());
         model.addAttribute("emailAdmin", admin.getEmail());
 
@@ -67,8 +67,13 @@ public class GameDepotController {
     }
 
     @GetMapping("/catalogo")
-    public String productos(Model model) {
+    public String productos(Model model,Principal principal) {
         List<MostrarVideojuegoDTO> listaVideojuegos = videojuegoService.mostrarVideojuego();
+
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
 
         model.addAttribute("videojuegos", listaVideojuegos);
 
@@ -76,12 +81,17 @@ public class GameDepotController {
     }
 
     @GetMapping("/catalogo/nuevo")
-    public String productoNuevo(Model model) {
+    public String productoNuevo(Model model,Principal principal) {
         GuardarVideojuegoDTO videojuego = new GuardarVideojuegoDTO();
 
         List<CategoriaDTO> listaCategorias = videojuegoService.obtenerCategorias();
         List<PlataformaDTO> listaPlataformas = videojuegoService.obtenerPlataformas();
         List<RegionDTO> listaRegiones = videojuegoService.obtenerRegiones();
+
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
 
         model.addAttribute("regiones", listaRegiones);
         model.addAttribute("plataformas", listaPlataformas);
@@ -91,7 +101,7 @@ public class GameDepotController {
     }
 
     @GetMapping("/catalogo/editar/{id}")
-    public String editarProducto(@PathVariable("id")Long id, Model model) {
+    public String editarProducto(@PathVariable("id")Long id, Model model,Principal principal) {
         MostrarVideojuegoDTO producto = videojuegoService.obtenerPorId(id);
         List<CategoriaDTO> listaCategorias = videojuegoService.obtenerCategorias();
         List<PlataformaDTO> listaPlataformas = videojuegoService.obtenerPlataformas();
@@ -101,11 +111,17 @@ public class GameDepotController {
         model.addAttribute("plataformas", listaPlataformas);
         model.addAttribute("categorias", listaCategorias);
         model.addAttribute("videojuego", producto);
+
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
+
         return  "catalogo/editar";
     }
 
     @GetMapping("/pedidos")
-    public String pedidos(Model model) {
+    public String pedidos(Model model,Principal principal) {
         List<OrdenDTO> pedidosRecientes = ordenService.getOrdenes();
 
         List<MostrarUsuarioDTO> compradores = ordenService.getUsuariosPorOrden();
@@ -118,33 +134,53 @@ public class GameDepotController {
         model.addAttribute("pedidosRecientes",pedidosRecientes);
         model.addAttribute("compradoresPorId", compradoresPorId);
 
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
+
         return  "pedidos";
     }
 
     @GetMapping("/pedidos/gestionar/{id}")
-    public String gestionarPedidos(@PathVariable("id") Long id, Model model) {
+    public String gestionarPedidos(@PathVariable("id") Long id, Model model,Principal principal) {
         OrdenDTO pedido = ordenService.obtenerOrdenPorId(id);
 
         model.addAttribute("pedido", pedido);
+
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
 
         return  "pedidos/gestionar";
     }
 
     @GetMapping("/usuarios")
-    public String usuarios(Model model) {
+    public String usuarios(Model model,Principal principal) {
 
         List<MostrarUsuarioDTO> usuarios = usuarioService.mostrarUsuarios();
 
         model.addAttribute("usuarios", usuarios);
 
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
+
         return  "usuarios";
     }
 
     @GetMapping("/usuarios/gestionar/{id}")
-    public String gestionarUsuario(@PathVariable("id") Long id, Model model) {
+    public String gestionarUsuario(@PathVariable("id") Long id, Model model,Principal principal) {
         MostrarUsuarioDTO usuario = usuarioService.obtenerPorId(id);
 
         model.addAttribute("usuario", usuario);
+
+        /*Mostrar datos del admin*/
+        MostrarUsuarioDTO admin = usuarioService.obtenerPorEmail(principal.getName());
+        model.addAttribute("nombreAdmin", admin.getNombre());
+        model.addAttribute("emailAdmin", admin.getEmail());
 
         return  "usuarios/gestionar";
     }

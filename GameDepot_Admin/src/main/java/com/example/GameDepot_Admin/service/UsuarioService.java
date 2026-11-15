@@ -1,6 +1,9 @@
 package com.example.GameDepot_Admin.service;
 
+import com.example.GameDepot_Admin.dto.enums.RolUsuario;
+import com.example.GameDepot_Admin.dto.usuario.ActualizarRolEstadoDTO;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
+import com.example.GameDepot_Admin.exception.NegocioException;
 import com.example.GameDepot_Admin.exception.RecursoNoEncontradoException;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 import com.example.GameDepot_Admin.repository.UsuarioRepository;
@@ -27,6 +30,30 @@ public class UsuarioService {
                     () -> new RecursoNoEncontradoException("Usuario con ID " + id + " no encontrado.")
                 )
         );
+    }
+
+    public ActualizarRolEstadoDTO actualizarRolEstado(Long id, ActualizarRolEstadoDTO datosActualizados) {
+        if (id == null || id <= 0) {
+            throw new NegocioException("El ID del usuario debe ser un número positivo.");
+        }
+        if (datosActualizados == null) {
+            throw new NegocioException("Los datos del usuario no pueden ser nulos.");
+        }
+
+        return UsuarioMapper.toActualizarRolEstadoDTO(usuarioRepository.findById(id).map(usuario -> {
+
+            if (datosActualizados.getRol() != null) {
+                usuario.setRol(datosActualizados.getRol());
+            }
+
+            if (datosActualizados.getActivo() != null) {
+                usuario.setActivo(datosActualizados.getActivo());
+            }
+
+            return usuarioRepository.save(usuario);
+
+        }).orElseThrow(() -> new RecursoNoEncontradoException("Usuario con ID " + id + " no encontrado.")));
+
     }
 
     public List<Usuario> getUsuariosMensuales() {

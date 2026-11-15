@@ -39,9 +39,10 @@
                                 <td class="hide-m" th:text="${videojuego.stock}">3</td>
 
                                 <td>
-                                    <span class="status" th:classappend="${videojuego.activo != null ? 'warn' : ''}"
-                                        th:text="${videojuego.activo}">
-                                        Entregado
+                                    <span class="status"
+                                        th:classappend="${videojuego.activo == null ? 'warn' : (videojuego.activo ? '' : 'inactivo')}"
+                                        th:text="${videojuego.activo == null ? 'Sin estado' : (videojuego.activo ? 'Activo' : 'Inactivo')}">
+                                        Activo
                                     </span>
                                 </td>
 

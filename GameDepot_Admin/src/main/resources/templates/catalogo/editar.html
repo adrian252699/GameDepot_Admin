@@ -26,16 +26,16 @@
                         th:object="${videojuego}" th:attr="data-catalogo-url=@{/catalogo}" method="post" class="fgrid">
                         <p id="videojuego-mensaje" role="status" style="grid-column: 1 / -1"></p>
                         <div class="field">
-                            <label>Id del juego</label>
-                            <input type="text" th:field="*{id}" class="input" required>
+                            <dt class="eyebrow">ID del juego</dt>
+                            <dd class="input" th:text="${videojuego.id}">1</dd>
                         </div>
                         <div class="field">
-                            <label>Nombre del juego</label>
+                            <label>NOMBRE DEL JUEGO</label>
                             <input type="text" th:field="*{nombre}" class="input" placeholder="Ej. CyberStrike 2088"
                                 required>
                         </div>
                         <div class="field">
-                            <label for="plataforma">Plataformas</label>
+                            <label for="plataforma">PLATAFORMA</label>
                             <select id="plataforma" name="plataforma" class="input" required>
                                 <option value="" disabled th:selected="${videojuego.plataforma?.id == null}">
                                     Selecciona una Plataforma
@@ -49,7 +49,7 @@
                             </select>
                         </div>
                         <div class="field">
-                            <label for="region">Region</label>
+                            <label for="region">REGION</label>
                             <select id="region" name="region" class="input" required>
                                 <option value="" disabled th:selected="${videojuego.region?.id == null}">
                                     Selecciona una Region
@@ -62,16 +62,16 @@
                             </select>
                         </div>
                         <div class="field">
-                            <label>Precio (MXN)</label>
+                            <label>PRECIO (MXN)</label>
                             <input type="number" th:field="*{precio}" step="0.01" class="input" placeholder="59.99"
                                 required>
                         </div>
                         <div class="field">
-                            <label>Stock / unidades disponibles</label>
+                            <label>STOCK</label>
                             <input type="number" th:field="*{stock}" class="input" placeholder="50" required>
                         </div>
                         <div class="field">
-                            <label for="categoria">Categoría principal</label>
+                            <label for="categoria">CATEGORIA</label>
                             <select id="categoria" name="categoria" class="input" required>
                                 <option value="" disabled th:selected="${videojuego.categoria?.id == null}">
                                     Selecciona una categoría
@@ -84,14 +84,24 @@
                                 </option>
                             </select>
                         </div>
+
+                        <div class="field">
+                            <label for="activo">ESTADO DEL VIDEOJUEGO</label>
+                            <select id="activo" th:field="*{activo}" class="input" required>
+                                <option value="" disabled>Selecciona un estado</option>
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
+                            </select>
+                        </div>
+
                         <div class="field" style="grid-column: 1 / -1">
-                            <label>Descripción del producto</label>
+                            <label>DESCRIPCION</label>
                             <textarea th:field="*{descripcion}" class="input"
                                 placeholder="Escribe los detalles, requisitos del sistema e incentivos de reserva..."></textarea>
                         </div>
                         <div class="form-actions" style="grid-column: 1 / -1">
-                            <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
-                            <button type="submit" class="btn-primary">Guardar Cambios</button>
+                            <button type="submit" class="btn-primary">GUARDAR CAMBIOS</button>
+                            <a th:href="@{/catalogo}" class="btn-ghost">CANCELAR</a>
                         </div>
                     </form>
                 </div>
@@ -117,7 +127,8 @@
                 stock: Number(campos.get('stock')),
                 plataforma: { id: Number(campos.get('plataforma')) },
                 region: { id: Number(campos.get('region')) },
-                categoria: { id: Number(campos.get('categoria')) }
+                categoria: { id: Number(campos.get('categoria')) },
+                activo: campos.get('activo') === 'true'
             };
 
             const cambios = Object.fromEntries(
