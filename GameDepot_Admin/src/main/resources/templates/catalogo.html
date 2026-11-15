@@ -16,7 +16,7 @@
             <main class="content">
                 <div class="sec-head">
                     <h2>Catalogo de Juegos</h2>
-                    <a th:href="@{/productos/nuevo}" class="btn-primary">Nuevo Producto</a>
+                    <a th:href="@{/catalogo/nuevo}" class="btn-primary">Nuevo Producto</a>
                 </div>
                 <div class="panel">
                     <table class="table">
@@ -48,7 +48,7 @@
 
                             <td>
                                 <a class="link-s"
-                                   th:href="@{/catalogo/{id}/editar(id=${videojuego.id})}">
+                                   th:href="@{/catalogo/editar/{id}(id=${videojuego.id})}">
                                     Editar
                                 </a>
                             </td>

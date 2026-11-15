@@ -4,6 +4,7 @@ import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
+import com.example.GameDepot_Admin.exception.RecursoNoEncontradoException;
 import com.example.GameDepot_Admin.model.orden.Orden;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
 import com.example.GameDepot_Admin.repository.OrdenRepository;
@@ -25,6 +26,13 @@ public class OrdenService {
     public  List<OrdenDTO> getOrdenes(){
         List<Orden> ordenes = ordenRepository.findAll();
         return OrdenMapper.toOrdenDTOList(ordenes);
+    }
+
+    public OrdenDTO obtenerOrdenPorId(Long id){
+        return OrdenMapper.toOrdenDTO(ordenRepository.findById(id).orElseThrow(
+                        () -> new RecursoNoEncontradoException("Orden con ID " + id + " no encontrada.")
+                )
+        );
     }
 
     public List<OrdenDTO> getOrdenesEntregadasDelMes() {

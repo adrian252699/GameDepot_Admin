@@ -26,26 +26,21 @@
                                 required>
                         </div>
                         <div class="field">
-                            <label>Codigo Key</label>
-                            <input type="text" th:field="*{key}" class="input" placeholder="Ej. CS-8820-STM" required>
-                        </div>
-                        <div class="field">
                             <label>Plataforma / DRM</label>
                             <select th:field="*{plataforma}" class="input">
-                                <option value="steam">Steam PC</option>
-                                <option value="ps5">PlayStation 5</option>
-                                <option value="xbox">Xbox Series X|S</option>
-                                <option value="epic">Epic Games</option>
-                                <option value="gog">GOG DRM-Free</option>
+                                <option value="STEAM">Steam PC</option>
+                                <option value="PLAYSTATION 5">PlayStation 5</option>
+                                <option value="XBOX">Xbox Series X|S</option>
+                                <option value="EPIC GAMES">Epic Games</option>
                             </select>
                         </div>
                         <div class="field">
                             <label>Region de la Clave</label>
                             <select th:field="*{region}" class="input">
-                                <option value="global">Global Key (Sin bloqueo)</option>
-                                <option value="latam">LATAM</option>
-                                <option value="na">Norteamerica</option>
-                                <option value="eu">Europa</option>
+                                <option value="GLOBAL">Global Key (Sin bloqueo)</option>
+                                <option value="LATAM">LATAM</option>
+                                <option value="NA">Norteamerica</option>
+                                <option value="EU">Europa</option>
                             </select>
                         </div>
                         <div class="field">
@@ -60,10 +55,11 @@
                         <div class="field">
                             <label>Categoria Principal</label>
                             <select th:field="*{categoria}" class="input">
-                                <option value="accion">Accion y Cyberpunk</option>
-                                <option value="rpg">RPG / Aventuras</option>
-                                <option value="estrategia">Estrategia</option>
-                                <option value="deportes">Deportes</option>
+                                <option value="ACCION">Accion y Cyberpunk</option>
+                                <option value="RPG">RPG</option>
+                                <option value="AVENTURAS">Aventuras</option>
+                                <option value="ESTRATEGIA">Estrategia</option>
+                                <option value="DEPORTES">Deportes</option>
                             </select>
                         </div>
                         <div class="field" style="grid-column: 1 / -1">
