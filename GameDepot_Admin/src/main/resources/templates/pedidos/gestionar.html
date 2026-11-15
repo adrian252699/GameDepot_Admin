@@ -48,28 +48,71 @@
                             <dt class="eyebrow">Estado del pago</dt>
                             <dd class="input" th:text="${pedido.estadoPago}"></dd>
                         </div>
+                        <div class="field">
+                            <dt class="eyebrow">Usuario del pedido</dt>
+                            <dd class="input">
+                                <a class="link-s" th:if="${pedido.usuarioId != null}"
+                                   th:href="@{/usuarios/gestionar/{id}(id=${pedido.usuarioId})}"
+                                   th:text="|Ver usuario #${pedido.usuarioId}|">Ver usuario</a>
+                                <span th:if="${pedido.usuarioId == null}">Sin usuario asociado</span>
+                            </dd>
+                        </div>
                     </dl>
                 </section>
 
-                <section class="panel" aria-labelledby="cambiar-estado">
+                <section class="panel" aria-labelledby="items-pedido">
+                    <div class="sec-head">
+                        <h3 id="items-pedido">Productos del pedido</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Videojuego</th>
+                                <th scope="col">Precio unitario</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Claves asignadas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${itemsPedido}">
+                                <td th:text="${item.nombreVideojuego}"></td>
+                                <td th:text="${'$' + #numbers.formatDecimal(item.precioUnitario, 1, 2)}"></td>
+                                <td th:text="${item.cantidad}"></td>
+                                <td>
+                                    <code class="mono" style="display: block; overflow-wrap: anywhere"
+                                          th:each="clave : ${item.claves}" th:text="${clave}"></code>
+                                    <span th:if="${item.claves == null or #lists.isEmpty(item.claves)}">
+                                        Sin clave asignada
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr th:if="${itemsPedido == null or #lists.isEmpty(itemsPedido)}">
+                                <td colspan="3">Este pedido no tiene productos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="panel" aria-labelledby="cambiar-estado"
+                         th:with="puedeCambiar=${estadosDisponibles != null and !estadosDisponibles.isEmpty()}">
                     <div class="sec-head">
                         <h3 id="cambiar-estado">Cambiar estado del pedido</h3>
                     </div>
-                    <form class="fgrid" method="post" th:action="@{/pedidos/{id}/estado(id=${pedido.id})}">
+                    <form class="fgrid" method="post" th:if="${puedeCambiar}"
+                          th:action="@{/pedidos/{id}/estado(id=${pedido.id})}">
                         <div class="field">
-                            <label for="estado">Estado</label>
-                            <select th:field="${pedido.estado}" class="input" id="estado" name="estado" required>
+                            <label for="estado">Nuevo estado</label>
+                            <select class="input" id="estado" name="estado" required>
                                 <option value="" selected disabled>Selecciona un estado</option>
-                                <option value="entregado">Entregado</option>
-                                <option value="enviado">Enviado</option>
-                                <option value="pendiente">Pendiente</option>
-                                <option value="procesando">Procesando</option>
+                                <option th:each="estado : ${estadosDisponibles}" th:value="${estado}"
+                                        th:text="${estado}"></option>
                             </select>
                         </div>
                         <div class="form-actions" style="grid-column: 1 / -1">
                             <button class="btn-primary" type="submit">Guardar estado</button>
                         </div>
                     </form>
+                    <p th:unless="${puedeCambiar}">No hay cambios de estado disponibles para este pedido.</p>
                 </section>
             </main>
         </div>

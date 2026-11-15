@@ -1,5 +1,6 @@
 package com.example.GameDepot_Admin.model.orden;
 
+import com.example.GameDepot_Admin.model.videojuego.Clave;
 import com.example.GameDepot_Admin.model.videojuego.Videojuego;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,16 +26,16 @@ public class ItemOrden {
     @JoinColumn(name = "orden_id", nullable = false)
     private Orden orden;
 
+    @Column(nullable = false)
+    private Integer cantidad;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = false)
     private Videojuego videojuego;
 
-    @Column(nullable = false)
-    private Integer cantidad;
-
     @Column(name = "precio_unitario", nullable = false, precision = 10, scale = 2)
     private BigDecimal precioUnitario;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal descuento;
+    @OneToMany(mappedBy = "itemOrden")
+    private List<Clave> claves = new ArrayList<>();
 }

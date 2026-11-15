@@ -3,13 +3,17 @@ package com.example.GameDepot_Admin.service;
 import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.enums.EstadoOrden;
+import com.example.GameDepot_Admin.dto.orden.ItemOrdenDTO;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
 import com.example.GameDepot_Admin.exception.RecursoNoEncontradoException;
 import com.example.GameDepot_Admin.model.orden.Orden;
 import com.example.GameDepot_Admin.model.usuario.Usuario;
+import com.example.GameDepot_Admin.model.videojuego.Clave;
+import com.example.GameDepot_Admin.repository.ItemOrdenRepository;
 import com.example.GameDepot_Admin.repository.OrdenRepository;
 import com.example.GameDepot_Admin.service.mappers.OrdenMapper;
 import com.example.GameDepot_Admin.service.mappers.UsuarioMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,9 @@ public class OrdenService {
 
     @Autowired
     private OrdenRepository ordenRepository;
+
+    @Autowired
+    private ItemOrdenRepository  itemOrdenRepository;
 
     public  List<OrdenDTO> getOrdenes(){
         List<Orden> ordenes = ordenRepository.findAll();
@@ -78,5 +85,19 @@ public class OrdenService {
         }
 
         return UsuarioMapper.toMostrarUsuarioDTOList(usuariosPorOrden);
+    }
+
+    @Transactional()
+    public List<ItemOrdenDTO> listarItemsDelPedido(Long ordenId) {
+        return itemOrdenRepository.buscarItemsDelPedido(ordenId).stream()
+                .map(item -> new ItemOrdenDTO(
+                        item.getVideojuego().getNombre(),
+                        item.getPrecioUnitario(),
+                        item.getCantidad(),
+                        item.getClaves().stream()
+                                .map(Clave::getCodigo)
+                                .toList()
+                ))
+                .toList();
     }
 }

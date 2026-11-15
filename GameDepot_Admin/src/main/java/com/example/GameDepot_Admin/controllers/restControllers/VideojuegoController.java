@@ -3,6 +3,7 @@ package com.example.GameDepot_Admin.controllers.restControllers;
 import com.example.GameDepot_Admin.dto.videojuego.ActualizarVideojuegoDTO;
 import com.example.GameDepot_Admin.dto.videojuego.GuardarVideojuegoDTO;
 import com.example.GameDepot_Admin.dto.videojuego.MostrarVideojuegoDTO;
+import com.example.GameDepot_Admin.service.ClaveService;
 import com.example.GameDepot_Admin.service.VideojuegoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

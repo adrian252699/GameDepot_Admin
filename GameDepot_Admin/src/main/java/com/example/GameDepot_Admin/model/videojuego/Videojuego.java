@@ -47,9 +47,6 @@ public class Videojuego {
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
-    @OneToMany(mappedBy = "videojuego")
-    private List<Keys> claves = new ArrayList<>();
-
     @Column()
     @OneToMany(mappedBy ="videojuego",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ImagenProducto> imagenes;

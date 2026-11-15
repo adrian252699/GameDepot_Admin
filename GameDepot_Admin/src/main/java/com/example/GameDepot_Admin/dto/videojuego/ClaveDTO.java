@@ -1,6 +1,5 @@
 package com.example.GameDepot_Admin.dto.videojuego;
 
-import com.example.GameDepot_Admin.model.videojuego.Videojuego;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class KeyDTO {
+public class ClaveDTO {
     private Long id;
     private String codigo;
-    private Videojuego videojuego;
+    private Long itemId;
 }

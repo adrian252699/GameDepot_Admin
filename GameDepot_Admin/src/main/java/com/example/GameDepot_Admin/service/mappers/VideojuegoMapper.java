@@ -108,22 +108,22 @@ public class VideojuegoMapper {
         return plataformaDTOList;
     }
 
-    public static List<KeyDTO> toKeyDTOList(List<Keys> keys){
-        List<KeyDTO> keyDTOList = new ArrayList<>();
-        for (Keys key : keys) {
-            keyDTOList.add(toKeyDTO(key));
+    public static List<ClaveDTO> toClaveDTOList(List<Clave> claves){
+        List<ClaveDTO> claveDTOList = new ArrayList<>();
+        for (Clave clave : claves) {
+            claveDTOList.add(toClaveDTO(clave));
         }
 
-        return keyDTOList;
+        return claveDTOList;
     }
 
-    public static KeyDTO toKeyDTO(Keys key){
-        KeyDTO keyDTO = new KeyDTO();
-        keyDTO.setId(key.getId());
-        keyDTO.setCodigo(key.getCodigo());
-        keyDTO.setVideojuego(key.getVideojuego());
+    public static ClaveDTO toClaveDTO(Clave clave){
+        ClaveDTO claveDTO = new ClaveDTO();
+        claveDTO.setId(clave.getId());
+        claveDTO.setCodigo(clave.getCodigo());
+        claveDTO.setItemId(clave.getItemOrden().getId());
 
-        return keyDTO;
+        return claveDTO;
     }
 
     public static MostrarVideojuegoDTO toMostrarVideojuegoDTO(Videojuego videojuego) {

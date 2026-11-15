@@ -146,6 +146,7 @@ public class GameDepotController {
     public String gestionarPedidos(@PathVariable("id") Long id, Model model,Principal principal) {
         OrdenDTO pedido = ordenService.obtenerOrdenPorId(id);
 
+        model.addAttribute("itemsPedido", ordenService.listarItemsDelPedido(id));
         model.addAttribute("pedido", pedido);
 
         /*Mostrar datos del admin*/
