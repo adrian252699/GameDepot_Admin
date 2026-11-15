@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Producto - GameDepot Admin</title>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link rel="stylesheet" th:href="@{/styles/admin.css}">
 </head>
 
@@ -20,7 +22,13 @@
                     <a th:href="@{/catalogo}" class="btn-ghost">Volver al catálogo</a>
                 </div>
                 <div class="panel">
-                    <form th:action="@{/productos/editar/{id}(id=${producto.id})}" th:object="${producto}" method="post" class="fgrid" enctype="multipart/form-data">
+                    <form id="videojuego-form"
+                          th:action="@{/api/videojuego/{id}(id=${videojuego.id})}"
+                          th:object="${videojuego}"
+                          th:attr="data-catalogo-url=@{/catalogo}"
+                          method="post"
+                          class="fgrid">
+                        <p id="videojuego-mensaje" role="status" style="grid-column: 1 / -1"></p>
                         <div class="field">
                             <label>Id del juego</label>
                             <input type="text" th:field="*{id}" class="input" required>
@@ -30,21 +38,33 @@
                             <input type="text" th:field="*{nombre}" class="input" placeholder="Ej. CyberStrike 2088" required>
                         </div>
                         <div class="field">
-                            <label>Plataforma / DRM</label>
-                            <select th:field="*{plataforma}" class="input">
-                                <option value="steam">Steam PC</option>
-                                <option value="ps5">PlayStation 5</option>
-                                <option value="xbox">Xbox Series X|S</option>
-                                <option value="epic">Epic Games</option>
+                            <label for="plataforma">Plataformas</label>
+                            <select id="plataforma" name="plataforma" class="input" required>
+                                <option value="" disabled th:selected="${videojuego.plataforma?.id == null}">
+                                    Selecciona una Plataforma
+                                </option>
+
+                                <option th:each="plataforma : ${plataformas}"
+                                        th:value="${plataforma.id}"
+                                        th:text="${plataforma.nombre}"
+                                        th:selected="${plataforma.id == videojuego.plataforma?.id}"
+                                        th:attr="data-nombre=${plataforma.nombre}">
+                                </option>
                             </select>
                         </div>
                         <div class="field">
-                            <label>Región de la clave</label>
-                            <select th:field="*{region}" class="input">
-                                <option value="global">Global Key (Sin bloqueo)</option>
-                                <option value="latam">LATAM</option>
-                                <option value="na">Norteamérica</option>
-                                <option value="eu">Europa</option>
+                            <label for="region">Region</label>
+                            <select id="region" name="region" class="input" required>
+                                <option value="" disabled th:selected="${videojuego.region?.id == null}">
+                                    Selecciona una Region
+                                </option>
+
+                                <option th:each="region : ${regiones}"
+                                        th:value="${region.id}"
+                                        th:text="${region.nombre}"
+                                        th:selected="${region.id == videojuego.region?.id}"
+                                        th:attr="data-nombre=${region.nombre}">
+                                </option>
                             </select>
                         </div>
                         <div class="field">
@@ -56,12 +76,18 @@
                             <input type="number" th:field="*{stock}" class="input" placeholder="50" required>
                         </div>
                         <div class="field">
-                            <label >Categoría principal</label>
-                            <select th:field="*{categoria}" class="input">
-                                <option value="accion">Acción</option>
-                                <option value="rpg">RPG / Aventuras</option>
-                                <option value="estrategia">Estrategia</option>
-                                <option value="deportes">Deportes</option>
+                            <label for="categoria">Categoría principal</label>
+                            <select id="categoria" name="categoria" class="input" required>
+                                <option value="" disabled th:selected="${videojuego.categoria?.id == null}">
+                                    Selecciona una categoría
+                                </option>
+
+                                <option th:each="categoria : ${categorias}"
+                                        th:value="${categoria.id}"
+                                        th:text="${categoria.nombre}"
+                                        th:selected="${categoria.id == videojuego.categoria?.id}"
+                                        th:attr="data-nombre=${categoria.nombre},data-descripcion=${categoria.descripcion}">
+                                </option>
                             </select>
                         </div>
                         <div class="field" style="grid-column: 1 / -1">
@@ -71,7 +97,7 @@
                         </div>
                         <div class="form-actions" style="grid-column: 1 / -1">
                             <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
-                            <button type="submit" class="btn-primary">Guardar cambios</button>
+                            <button type="submit" class="btn-primary">Guardar Cambios</button>
                         </div>
                     </form>
                 </div>
@@ -79,6 +105,75 @@
 
         </div>
     </div>
+    <script>
+        const formulario = document.getElementById('videojuego-form');
+        const mensaje = document.getElementById('videojuego-mensaje');
+        const boton = formulario.querySelector('button[type="submit"]');
+        const originales = new FormData(formulario);
+
+        formulario.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensaje.textContent = '';
+
+            const campos = new FormData(formulario);
+            const valores = {
+                nombre: campos.get('nombre'),
+                descripcion: campos.get('descripcion'),
+                precio: Number(campos.get('precio')),
+                stock: Number(campos.get('stock')),
+                plataforma: { id: Number(campos.get('plataforma')) },
+                region: { id: Number(campos.get('region')) },
+                categoria: { id: Number(campos.get('categoria')) }
+            };
+
+            const cambios = Object.fromEntries(
+                Object.entries(valores).filter(([campo]) =>
+                    campos.get(campo) !== originales.get(campo)
+                )
+            );
+
+            if (Object.keys(cambios).length === 0) {
+                mensaje.textContent = 'No hay cambios para guardar.';
+                return;
+            }
+
+            boton.disabled = true;
+
+            try {
+                const cabeceraCsrf = document.querySelector('meta[name="_csrf_header"]').content;
+                const tokenCsrf = document.querySelector('meta[name="_csrf"]').content;
+
+                const respuesta = await fetch(formulario.action, {
+                    method: 'PATCH',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        [cabeceraCsrf]: tokenCsrf
+                    },
+                    body: JSON.stringify(cambios)
+                });
+
+                if (respuesta.redirected || respuesta.status === 401) {
+                    mensaje.textContent = 'Vuelve a iniciar sesión para guardar los cambios.';
+                    return;
+                }
+
+                if (!respuesta.ok) {
+                    const error = await respuesta.json().catch(() => null);
+                    mensaje.textContent = error?.message
+                        || `No se pudieron guardar los cambios (${respuesta.status}).`;
+                    return;
+                }
+
+                window.location.assign(formulario.dataset.catalogoUrl);
+            } catch (error) {
+                console.error(error);
+                mensaje.textContent = 'Ocurrió un error al enviar los cambios.';
+            } finally {
+                boton.disabled = false;
+            }
+        });
+    </script>
 </body>
 
 </html>

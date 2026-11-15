@@ -77,10 +77,11 @@ public class SecurityConfig{
         var rutasApi = rutas.matcher("/api/**");
         var imagenes = rutas.matcher("/uploads/videojuegos/**");
         var crearVideojuego = rutas.matcher(HttpMethod.POST, "/api/videojuego");
+        var editarVideojuego = rutas.matcher(HttpMethod.PATCH, "/api/videojuego/{id}");
         return http
                 .securityMatcher(request ->
                         (rutasApi.matches(request) || imagenes.matches(request))
-                                && (!crearVideojuego.matches(request)
+                                && (!(crearVideojuego.matches(request) || editarVideojuego.matches(request))
                                 || request.getHeader(HttpHeaders.AUTHORIZATION) != null)
                 )
                 .csrf(csrf -> csrf.disable())

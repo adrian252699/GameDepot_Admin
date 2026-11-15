@@ -93,7 +93,14 @@ public class GameDepotController {
     @GetMapping("/catalogo/editar/{id}")
     public String editarProducto(@PathVariable("id")Long id, Model model) {
         MostrarVideojuegoDTO producto = videojuegoService.obtenerPorId(id);
-        model.addAttribute("producto", producto);
+        List<CategoriaDTO> listaCategorias = videojuegoService.obtenerCategorias();
+        List<PlataformaDTO> listaPlataformas = videojuegoService.obtenerPlataformas();
+        List<RegionDTO> listaRegiones = videojuegoService.obtenerRegiones();
+
+        model.addAttribute("regiones", listaRegiones);
+        model.addAttribute("plataformas", listaPlataformas);
+        model.addAttribute("categorias", listaCategorias);
+        model.addAttribute("videojuego", producto);
         return  "catalogo/editar";
     }
 
