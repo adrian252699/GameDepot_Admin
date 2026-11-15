@@ -1,9 +1,7 @@
 package com.example.GameDepot_Admin.service.mappers;
 
 import com.example.GameDepot_Admin.dto.videojuego.*;
-import com.example.GameDepot_Admin.model.videojuego.Categoria;
-import com.example.GameDepot_Admin.model.videojuego.Keys;
-import com.example.GameDepot_Admin.model.videojuego.Videojuego;
+import com.example.GameDepot_Admin.model.videojuego.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,17 @@ public class VideojuegoMapper {
     }
 
     public static Videojuego toVideojuegoEntity(GuardarVideojuegoDTO videojuegoDTO){
-        Videojuego videojuego = new Videojuego();
+        Videojuego videojuego = new Videojuego(
+                videojuegoDTO.getNombre(),
+                toCategoriaEntity(videojuegoDTO.getCategoria()),
+                videojuegoDTO.getDescripcion(),
+                videojuegoDTO.getPrecio(),
+                videojuegoDTO.getStock(),
+                videojuegoDTO.getActivo(),
+                toPlataformaEntity(videojuegoDTO.getPlataforma()),
+                toRegionEntity(videojuegoDTO.getRegion())
+
+        );
 
         videojuego.setNombre(videojuegoDTO.getNombre());
         videojuego.setDescripcion(videojuegoDTO.getDescripcion());
@@ -29,7 +37,21 @@ public class VideojuegoMapper {
         videojuego.setActivo(videojuegoDTO.getActivo());
         videojuego.setStock(videojuegoDTO.getStock());
 
+
         return videojuego;
+    }
+
+    public static Region toRegionEntity(RegionDTO regionDTO){
+        Region region = new Region();
+        region.setNombre(regionDTO.getNombre());
+        region.setId(regionDTO.getId());
+        return region;
+    }
+    public static Plataforma toPlataformaEntity(PlataformaDTO plataformaDTO){
+        Plataforma plataforma = new Plataforma();
+        plataforma.setNombre(plataformaDTO.getNombre());
+        plataforma.setId(plataformaDTO.getId());
+        return plataforma;
     }
 
     public static GuardarVideojuegoDTO toGuardarVideojuegoDTO(Videojuego videojuego) {
@@ -48,10 +70,42 @@ public class VideojuegoMapper {
                 videojuego.getPrecio(),
                 videojuego.getStock(),
                 videojuego.getActivo(),
-                videojuego.getPlataforma(),
-                videojuego.getRegion(),
-                toKeyDTOList(videojuego.getClaves())
+                toPlataformaDTO(videojuego.getPlataforma()),
+                toRegionDTO(videojuego.getRegion())
         );
+    }
+
+    public static RegionDTO toRegionDTO(Region region) {
+        RegionDTO regionDTO = new RegionDTO();
+        regionDTO.setId(region.getId());
+        regionDTO.setNombre(region.getNombre());
+
+        return regionDTO;
+    }
+
+    public static List<RegionDTO> toRegionDTOList(List<Region> regions) {
+        List<RegionDTO> regionDTOList = new ArrayList<>();
+        for (Region region : regions) {
+            regionDTOList.add(toRegionDTO(region));
+
+        }
+        return regionDTOList;
+    }
+
+    public static PlataformaDTO toPlataformaDTO(Plataforma plataforma) {
+        PlataformaDTO plataformaDTO = new PlataformaDTO();
+        plataformaDTO.setNombre(plataforma.getNombre());
+        plataformaDTO.setId(plataforma.getId());
+
+        return plataformaDTO;
+    }
+
+    public static List<PlataformaDTO>  toPlataformaDTOList(List<Plataforma> plataformas) {
+        List<PlataformaDTO> plataformaDTOList = new ArrayList<>();
+        for (Plataforma plataforma : plataformas) {
+            plataformaDTOList.add(toPlataformaDTO(plataforma));
+        }
+        return plataformaDTOList;
     }
 
     public static List<KeyDTO> toKeyDTOList(List<Keys> keys){
@@ -89,8 +143,8 @@ public class VideojuegoMapper {
                 videojuego.getPrecio(),
                 videojuego.getStock(),
                 videojuego.getActivo(),
-                videojuego.getPlataforma(),
-                videojuego.getRegion()
+                toPlataformaDTO(videojuego.getPlataforma()),
+                toRegionDTO(videojuego.getRegion())
 
         );
     }
@@ -101,6 +155,14 @@ public class VideojuegoMapper {
         }
 
         return new CategoriaDTO(categoria.getId(), categoria.getNombre(),categoria.getDescripcion());
+    }
+
+    public static List<CategoriaDTO> toCategoriaDTOList(List<Categoria> categorias) {
+        List<CategoriaDTO> categoriaDTOList = new ArrayList<>();
+        for (Categoria categoria : categorias) {
+            categoriaDTOList.add(toCategoriaDTO(categoria));
+        }
+        return categoriaDTOList;
     }
 
     public static Categoria toCategoriaEntity(CategoriaDTO categoria) {

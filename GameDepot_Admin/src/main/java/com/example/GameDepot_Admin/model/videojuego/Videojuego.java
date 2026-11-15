@@ -39,11 +39,13 @@ public class Videojuego {
     @Column(nullable = false)
     private Boolean activo;
 
-    @Column(nullable = false)
-    private String plataforma;
+    @ManyToOne
+    @JoinColumn(name = "plataforma_id", nullable = false)
+    private Plataforma plataforma;
 
-    @Column(nullable = false)
-    private String region;
+    @ManyToOne
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 
     @OneToMany(mappedBy = "videojuego")
     private List<Keys> claves = new ArrayList<>();
@@ -51,4 +53,15 @@ public class Videojuego {
     @Column()
     @OneToMany(mappedBy ="videojuego",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ImagenProducto> imagenes;
+
+    public Videojuego(String nombre, Categoria categoria, String descripcion, BigDecimal precio, Integer stock, Boolean activo, Plataforma plataforma, Region region) {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.activo = activo;
+        this.plataforma = plataforma;
+        this.region = region;
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
@@ -71,8 +73,16 @@ public class SecurityConfig{
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        var rutas = PathPatternRequestMatcher.withDefaults();
+        var rutasApi = rutas.matcher("/api/**");
+        var imagenes = rutas.matcher("/uploads/videojuegos/**");
+        var crearVideojuego = rutas.matcher(HttpMethod.POST, "/api/videojuego");
         return http
-                .securityMatcher("/api/**", "/uploads/videojuegos/**")
+                .securityMatcher(request ->
+                        (rutasApi.matches(request) || imagenes.matches(request))
+                                && (!crearVideojuego.matches(request)
+                                || request.getHeader(HttpHeaders.AUTHORIZATION) != null)
+                )
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

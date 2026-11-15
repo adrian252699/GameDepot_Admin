@@ -34,7 +34,7 @@
                         <tbody>
                         <tr th:each="videojuego : ${videojuegos}">
                             <td th:text="${videojuego.nombre}">Título</td>
-                            <td class="hide-m" th:text="${videojuego.plataforma}">Steam</td>
+                            <td class="hide-m" th:text="${videojuego.plataforma.nombre}">Steam</td>
                             <td th:text="|$${#numbers.formatDecimal(videojuego.precio, 1, 2)}|">$59.99</td>
                             <td class="hide-m" th:text="${videojuego.stock}">3</td>
 

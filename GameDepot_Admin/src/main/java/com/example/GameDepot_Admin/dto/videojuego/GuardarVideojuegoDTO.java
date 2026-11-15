@@ -19,7 +19,6 @@ public class GuardarVideojuegoDTO {
     private BigDecimal precio;
     private Integer stock;
     private Boolean activo;
-    private String plataforma;
-    private String region;
-    private List<KeyDTO> key;
+    private PlataformaDTO plataforma;
+    private RegionDTO region;
 }

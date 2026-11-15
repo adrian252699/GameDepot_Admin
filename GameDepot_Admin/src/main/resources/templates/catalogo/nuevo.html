@@ -2,80 +2,185 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Producto - GameDepot Admin</title>
-    <link rel="stylesheet" th:href="@{/styles/admin.css}">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Agregar Producto - GameDepot Admin</title>
+      <meta name="_csrf" th:content="${_csrf.token}">
+      <meta name="_csrf_header" th:content="${_csrf.headerName}">
+      <link rel="stylesheet" th:href="@{/styles/admin.css}">
 </head>
 
 <body>
-    <div class="page">
-        <div th:replace="~{fragments :: header('productos')}"></div>
-        <div class="main-layout">
-            <div th:replace="~{fragments :: sidebar('productos')}"></div>
-            <main class="content">
-                <div class="sec-head">
-                    <h2>Agregar Nuevo Producto</h2>
-                    <a th:href="@{/catalogo}" class="btn-ghost">Volver al Catalogo</a>
-                </div>
-                <div class="panel">
-                    <form th:action="@{/producto-nuevo}" th:object="${producto}" method="post" class="fgrid">
-                        <div class="field">
-                            <label>Nombre del Juego</label>
-                            <input type="text" th:field="*{nombre}" class="input" placeholder="Ej. CyberStrike 2088"
-                                required>
+      <div class="page">
+
+            <div th:replace="~{fragments :: header('productos')}"></div>
+            <div class="main-layout">
+
+                  <div th:replace="~{fragments :: sidebar('productos')}"></div>
+                  <main class="content">
+                        <div class="sec-head">
+                              <h2>Agregar Nuevo Producto</h2>
+                              <a th:href="@{/catalogo}" class="btn-ghost">Volver al Catalogo</a>
                         </div>
-                        <div class="field">
-                            <label>Plataforma / DRM</label>
-                            <select th:field="*{plataforma}" class="input">
-                                <option value="STEAM">Steam PC</option>
-                                <option value="PLAYSTATION 5">PlayStation 5</option>
-                                <option value="XBOX">Xbox Series X|S</option>
-                                <option value="EPIC GAMES">Epic Games</option>
-                            </select>
+                        <div class="panel">
+                              <form id="videojuego-form" th:action="@{/api/videojuego}" th:object="${videojuego}"
+                                    th:attr="data-catalogo-url=@{/catalogo}" method="post" class="fgrid">
+                                    <p id="videojuego-error" role="alert" style="grid-column: 1 / -1" hidden></p>
+
+                                    <div class="field">
+                                          <label>Titulo del Juego</label>
+                                          <input type="text" th:field="*{nombre}" class="input"
+                                                placeholder="Ej. CyberStrike 2088" required>
+                                    </div>
+
+                                    <div class="field">
+                                          <label for="plataforma">Plataformas</label>
+                                          <select id="plataforma" name="plataforma" class="input" required>
+                                                <option value="" disabled selected>Selecciona una plataforma</option>
+                                                <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}"
+                                                        th:text="${plataforma.nombre}"
+                                                        th:attr="data-nombre=${plataforma.nombre}">
+                                                </option>
+                                          </select>
+                                    </div>
+
+                                    <div class="field">
+                                          <label for="region">Region</label>
+                                          <select id="region" name="region" class="input" required>
+                                                <option value="" disabled selected>Selecciona una region</option>
+                                                <option th:each="region : ${regiones}" th:value="${region.id}"
+                                                        th:text="${region.nombre}"
+                                                        th:attr="data-nombre=${region.nombre}">
+                                                </option>
+                                          </select>
+                                    </div>
+
+                                    <div class="field">
+                                          <label>Precio (MXN)</label>
+                                          <input type="number" th:field="*{precio}" step="0.01" class="input"
+                                                placeholder="59.99" required>
+                                    </div>
+                                    <div class="field">
+                                          <label>Stock / Unidades Disponibles</label>
+                                          <input type="number" th:field="*{stock}" class="input" placeholder="50"
+                                                required>
+                                    </div>
+                                    <div class="field">
+                                          <label for="categoria">Categoría principal</label>
+                                          <select id="categoria" name="categoria" class="input" required>
+                                                <option value="" disabled selected>Selecciona una categoría</option>
+                                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                                        th:text="${categoria.nombre}"
+                                                        th:attr="data-nombre=${categoria.nombre},data-descripcion=${categoria.descripcion}">
+                                                </option>
+                                          </select>
+                                    </div>
+                                    <div class="field" style="grid-column: 1 / -1">
+                                          <label>Descripcion del Producto</label>
+                                          <textarea th:field="*{descripcion}" class="input"
+                                                placeholder="Escribe los detalles, requisitos del sistema e incentivos de reserva..."></textarea>
+                                    </div>
+                                    <div class="form-actions" style="grid-column: 1 / -1">
+                                          <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
+                                          <button type="submit" class="btn-primary">Guardar Producto</button>
+                                    </div>
+                              </form>
                         </div>
-                        <div class="field">
-                            <label>Region de la Clave</label>
-                            <select th:field="*{region}" class="input">
-                                <option value="GLOBAL">Global Key (Sin bloqueo)</option>
-                                <option value="LATAM">LATAM</option>
-                                <option value="NA">Norteamerica</option>
-                                <option value="EU">Europa</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Precio (MXN)</label>
-                            <input type="number" th:field="*{precio}" step="0.01" class="input" placeholder="59.99"
-                                required>
-                        </div>
-                        <div class="field">
-                            <label>Stock / Unidades Disponibles</label>
-                            <input type="number" th:field="*{stock}" class="input" placeholder="50" required>
-                        </div>
-                        <div class="field">
-                            <label>Categoria Principal</label>
-                            <select th:field="*{categoria}" class="input">
-                                <option value="ACCION">Accion y Cyberpunk</option>
-                                <option value="RPG">RPG</option>
-                                <option value="AVENTURAS">Aventuras</option>
-                                <option value="ESTRATEGIA">Estrategia</option>
-                                <option value="DEPORTES">Deportes</option>
-                            </select>
-                        </div>
-                        <div class="field" style="grid-column: 1 / -1">
-                            <label>Descripcion del Producto</label>
-                            <textarea th:field="*{descripcion}" class="input"
-                                placeholder="Escribe los detalles, requisitos del sistema e incentivos de reserva..."></textarea>
-                        </div>
-                        <div class="form-actions" style="grid-column: 1 / -1">
-                            <a th:href="@{/catalogo}" class="btn-ghost">Cancelar</a>
-                            <button type="submit" class="btn-primary">Guardar Producto</button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-        </div>
-    </div>
+                  </main>
+            </div>
+      </div>
+      <script>
+            const formulario = document.querySelector('#videojuego-form');
+            const selectorCategoria = document.querySelector('#categoria');
+            const selectorPlataforma = document.querySelector('#plataforma');
+            const selectorRegion = document.querySelector('#region');
+            const avisoError = document.querySelector('#videojuego-error');
+            const botonGuardar = formulario.querySelector('button[type="submit"]');
+
+            formulario.addEventListener('submit', async (evento) => {
+                  evento.preventDefault();
+                  avisoError.hidden = true;
+                  const categoriaSeleccionada = selectorCategoria.selectedOptions[0];
+                  const plataformaSeleccionada = selectorPlataforma.selectedOptions[0];
+                  const regionSeleccionada = selectorRegion.selectedOptions[0];
+
+                  if (!categoriaSeleccionada?.value) {
+                        avisoError.textContent = 'Selecciona una categoría.';
+                        avisoError.hidden = false;
+                        return;
+                  }
+
+                  if (!plataformaSeleccionada?.value) {
+                        avisoError.textContent = 'Selecciona una plataforma.';
+                        avisoError.hidden = false;
+                        return;
+                  }
+                  if (!regionSeleccionada?.value) {
+                        avisoError.textContent = 'Selecciona una region.';
+                        avisoError.hidden = false;
+                        return;
+                  }
+
+                  botonGuardar.disabled = true;
+                  const campos = new FormData(formulario);
+                  const videojuego = {
+                        nombre: campos.get('nombre'),
+                        plataforma: {
+                              id: Number(plataformaSeleccionada.value),
+                              nombre: plataformaSeleccionada.dataset.nombre
+                        },
+                        region: {
+                              id: Number(regionSeleccionada.value),
+                              nombre: regionSeleccionada.dataset.nombre
+                        },
+                        precio: Number(campos.get('precio')),
+                        stock: Number(campos.get('stock')),
+                        categoria: {
+                              id: Number(categoriaSeleccionada.value),
+                              nombre: categoriaSeleccionada.dataset.nombre,
+                              descripcion: categoriaSeleccionada.dataset.descripcion ?? null
+                        },
+                        descripcion: campos.get('descripcion')
+                  };
+
+                  try {
+                        const cabeceraCsrf = document.querySelector('meta[name="_csrf_header"]').content;
+                        const tokenCsrf = document.querySelector('meta[name="_csrf"]').content;
+                        const respuesta = await fetch(formulario.action, {
+                              method: 'POST',
+                              credentials: 'same-origin',
+                              headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    [cabeceraCsrf]: tokenCsrf
+                              },
+                              body: JSON.stringify(videojuego)
+                        });
+
+                        if (respuesta.redirected || respuesta.status === 401) {
+                              avisoError.textContent = 'La sesión expiró. Vuelve a iniciar sesión.';
+                              avisoError.hidden = false;
+                              return;
+                        }
+
+                        if (!respuesta.ok) {
+                              const error = await respuesta.json().catch(() => null);
+                              const detalles = Array.isArray(error?.details) ? error.details.join(' ') : '';
+                              avisoError.textContent = detalles || error?.message
+                                      || `No se pudo guardar el videojuego (${respuesta.status}).`;
+                              avisoError.hidden = false;
+                              return;
+                        }
+
+                        window.location.assign(formulario.dataset.catalogoUrl);
+                  } catch {
+                        avisoError.textContent = 'No se pudo completar la solicitud.';
+                        avisoError.hidden = false;
+                  } finally {
+                        botonGuardar.disabled = false;
+                  }
+            });
+      </script>
 </body>
 
 </html>

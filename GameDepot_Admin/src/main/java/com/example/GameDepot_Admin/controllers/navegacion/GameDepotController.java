@@ -5,7 +5,7 @@ import com.example.GameDepot_Admin.dto.admin.OrdenDTO;
 import com.example.GameDepot_Admin.dto.admin.ProductoDTO;
 import com.example.GameDepot_Admin.dto.admin.UsuarioDTO;
 import com.example.GameDepot_Admin.dto.usuario.MostrarUsuarioDTO;
-import com.example.GameDepot_Admin.dto.videojuego.MostrarVideojuegoDTO;
+import com.example.GameDepot_Admin.dto.videojuego.*;
 import com.example.GameDepot_Admin.service.EstadisticasService;
 import com.example.GameDepot_Admin.service.OrdenService;
 import com.example.GameDepot_Admin.service.UsuarioService;
@@ -76,7 +76,17 @@ public class GameDepotController {
     }
 
     @GetMapping("/catalogo/nuevo")
-    public String productoNuevo() {
+    public String productoNuevo(Model model) {
+        GuardarVideojuegoDTO videojuego = new GuardarVideojuegoDTO();
+
+        List<CategoriaDTO> listaCategorias = videojuegoService.obtenerCategorias();
+        List<PlataformaDTO> listaPlataformas = videojuegoService.obtenerPlataformas();
+        List<RegionDTO> listaRegiones = videojuegoService.obtenerRegiones();
+
+        model.addAttribute("regiones", listaRegiones);
+        model.addAttribute("plataformas", listaPlataformas);
+        model.addAttribute("categorias", listaCategorias);
+        model.addAttribute("videojuego", videojuego);
         return  "catalogo/nuevo";
     }
 

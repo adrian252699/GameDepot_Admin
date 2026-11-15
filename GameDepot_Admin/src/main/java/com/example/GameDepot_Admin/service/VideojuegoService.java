@@ -1,11 +1,12 @@
 package com.example.GameDepot_Admin.service;
 
-import com.example.GameDepot_Admin.dto.videojuego.ActualizarVideojuegoDTO;
-import com.example.GameDepot_Admin.dto.videojuego.GuardarVideojuegoDTO;
-import com.example.GameDepot_Admin.dto.videojuego.MostrarVideojuegoDTO;
+import com.example.GameDepot_Admin.dto.videojuego.*;
 import com.example.GameDepot_Admin.exception.NegocioException;
 import com.example.GameDepot_Admin.exception.RecursoNoEncontradoException;
 import com.example.GameDepot_Admin.model.videojuego.Videojuego;
+import com.example.GameDepot_Admin.repository.CategoriaRepository;
+import com.example.GameDepot_Admin.repository.PlataformaRepository;
+import com.example.GameDepot_Admin.repository.RegionRepository;
 import com.example.GameDepot_Admin.repository.VideojuegoRepository;
 import com.example.GameDepot_Admin.service.mappers.VideojuegoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,45 @@ public class VideojuegoService {
     @Autowired
     private VideojuegoRepository videojuegoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private PlataformaRepository plataformaRepository;
+
+    @Autowired
+    private RegionRepository regionRepository;
 
     public GuardarVideojuegoDTO guardarVideojuego(GuardarVideojuegoDTO videojuegoDTO) {
+        videojuegoDTO.setActivo(true);
+        PlataformaDTO plataformaDTO = VideojuegoMapper.toPlataformaDTO(plataformaRepository.findById(videojuegoDTO.getPlataforma().getId()).orElseThrow(
+                ()-> new RecursoNoEncontradoException("Plataforma no encontrada")
+                ));
 
-        Videojuego videojuegoEntity = videojuegoRepository.save(VideojuegoMapper.toVideojuegoEntity(videojuegoDTO));
+        RegionDTO regionDTO = VideojuegoMapper.toRegionDTO(regionRepository.findById(videojuegoDTO.getRegion().getId()).orElseThrow(
+                ()-> new RecursoNoEncontradoException("Region no encontrada")
+        ));
+
+        videojuegoDTO.setPlataforma(plataformaDTO);
+        videojuegoDTO.setRegion(regionDTO);
+
+        Videojuego videojuegoEntity = VideojuegoMapper.toVideojuegoEntity(videojuegoDTO);
+
+        videojuegoRepository.save(videojuegoEntity);
 
         return VideojuegoMapper.toGuardarVideojuegoDTO(videojuegoEntity);
+    }
+
+    public List<CategoriaDTO> obtenerCategorias() {
+        return VideojuegoMapper.toCategoriaDTOList(categoriaRepository.findAll());
+    }
+
+    public List<PlataformaDTO> obtenerPlataformas(){
+        return VideojuegoMapper.toPlataformaDTOList(plataformaRepository.findAll());
+    }
+
+    public List<RegionDTO> obtenerRegiones(){
+        return VideojuegoMapper.toRegionDTOList(regionRepository.findAll());
     }
 
     public List<MostrarVideojuegoDTO> mostrarVideojuego() {
